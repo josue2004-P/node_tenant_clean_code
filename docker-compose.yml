@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db_bp:
+    image: mongo:6.0
+    container_name: db_bp_v2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - '27017:27017'
+    volumes:
+      - db_data:/data/db
+    networks:
+      - bp_net
+
+  api_bp:
+    build: .
+    container_name: api_bp_v2
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db_bp
+    environment:
+      MONGO_URI: mongodb://root:root@db_bp:27017/?authSource=admin
+      SECRET_JWT_SEED: ${SECRET_JWT_SEED}
+      HOST: ${HOST}
+      USER: ${USER}
+      PASSWORD: ${PASSWORD}
+      FRONTEND_URL: ${FRONTEND_URL}
+    networks:
+      - bp_net
+      - proxy
+
+networks:
+  bp_net:
+  proxy:
+    external: true
+
+volumes:
+  db_data:

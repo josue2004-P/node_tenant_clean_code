@@ -1,24 +1,19 @@
 const mongoose = require('mongoose');
+const connections = {};
 
-require('dotenv').config();
+const connectToTenantDB = async (tenant) => {
+  if (connections[tenant]) return connections[tenant];
 
-const DB_CNN = process.env.DB_CNN;
+  const dbName = `tenant_${tenant}`;
+  const uri = process.env.MONGO_URI.replace('/?', `/${dbName}?`);
 
-const dbConnection = async () => {
-    try {
-        await mongoose.connect(`${DB_CNN}`, {
-            useNewUrlParser: true, 
-            useUnifiedTopology: true,
-            useCreateIndex: true
-        });
+  const conn = await mongoose.createConnection(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
-        console.log('DB Online');
-    } catch (error) {
-        console.error(error);
-        throw new Error('Error a la hora de inicializar la BD');
-    }
+  connections[tenant] = conn;
+  return conn;
 };
 
-module.exports = {
-    dbConnection
-};
+module.exports = connectToTenantDB;

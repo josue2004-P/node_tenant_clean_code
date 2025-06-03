@@ -1,24 +1,25 @@
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const { dbConnection } = require('./database/config');
+
 const corsMiddleware = require('./config/cors.config');
-
-
-// Crear el servidor de express
-const app = express();
-const PORT = process.env.PORT || 3000;
 
 const path = require('path');
 
-// Base de datos
-dbConnection();
+const app = express();
 
 app.use(corsMiddleware);
-
 app.use(express.json());
 
 // Directorio Público
-app.use( express.static('public') );
+app.use(express.static('public') );
+
+const tenantMiddleware = require('./middlewares/tenant.middleware');
+const userRoutes = require('./routes/user.routes');
+
+app.use(express.json());
+app.use(tenantMiddleware);
+
+app.use('/api/usuarios', userRoutes);
 
 // Rutas
 // app.use('/api/auth', require('./routes/auth') );
@@ -39,9 +40,7 @@ app.use( express.static('public') );
 //TECNICO
 // app.use('/api/super-admin', require('./routes/superAdmin'));
 
-// Escuchar peticiones
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+  console.log(`API running on port ${PORT}`);
 });
-
-
