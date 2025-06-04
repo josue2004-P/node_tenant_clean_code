@@ -24,7 +24,8 @@ services:
     volumes:
       - .:/app              
       - /app/node_modules    
-    command: npm run dev
+    command: >
+      sh -c "if [ \"$NODE_ENV\" = \"development\" ]; then npm run dev; else npm start; fi"
     environment:
       MONGO_URI: mongodb://root:root@db_bp:27017/?authSource=admin
       SECRET_JWT_SEED: ${SECRET_JWT_SEED}
