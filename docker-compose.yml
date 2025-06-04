@@ -21,6 +21,10 @@ services:
       - '3000:3000'
     depends_on:
       - db_bp
+    volumes:
+      - .:/app              
+      - /app/node_modules    
+    command: npm run dev
     environment:
       MONGO_URI: mongodb://root:root@db_bp:27017/?authSource=admin
       SECRET_JWT_SEED: ${SECRET_JWT_SEED}

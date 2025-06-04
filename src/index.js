@@ -14,12 +14,13 @@ app.use(express.json());
 app.use(express.static('public') );
 
 const tenantMiddleware = require('./middlewares/tenant.middleware');
-const userRoutes = require('./routes/user.routes');
+const userRoutes = require('./v1/routes/user.routes');
 
 app.use(express.json());
 app.use(tenantMiddleware);
 
 app.use('/api/usuarios', userRoutes);
+
 
 // Rutas
 // app.use('/api/auth', require('./routes/auth') );
