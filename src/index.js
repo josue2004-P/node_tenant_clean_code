@@ -19,7 +19,7 @@ const userRoutes = require("./v1/routes/user.routes");
 app.use(express.json());
 app.use(tenantMiddleware);
 
-app.use("/api/usuarios", userRoutes);
+app.use("/api/v1/usuarios", userRoutes);
 
 // Rutas
 // app.use('/api/auth', require('./routes/auth') );
