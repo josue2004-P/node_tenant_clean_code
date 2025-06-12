@@ -20,7 +20,6 @@ app.use(express.json());
 app.use(tenantMiddleware);
 
 app.use("/api/usuarios", userRoutes);
-
 // Rutas
 // app.use('/api/auth', require('./routes/auth') );
 
