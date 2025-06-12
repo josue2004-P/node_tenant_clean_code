@@ -1,9 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 
+const tenantMiddleware = require("./middlewares/tenant.middleware");
 const corsMiddleware = require("./config/cors.config");
 
-const path = require("path");
+// ROUTES
+const empresaRoutes = require("./v1/routes/empresa.routes");
+const usuariosRoutes = require("./v1/routes/usuarios.routes");
 
 const app = express();
 
@@ -13,31 +16,12 @@ app.use(express.json());
 // Directorio Público
 app.use(express.static("public"));
 
-const tenantMiddleware = require("./middlewares/tenant.middleware");
-const userRoutes = require("./v1/routes/user.routes");
-
 app.use(express.json());
 app.use(tenantMiddleware);
 
-app.use("/api/usuarios", userRoutes);
-// Rutas
-// app.use('/api/auth', require('./routes/auth') );
-
-// ADMIN
-// app.use('/api/operador', require('./routes/operador'));
-// app.use('/api/tecnico', require('./routes/tecnico'));
-// app.use('/api/equipo', require('./routes/equipo'));
-// app.use('/api/ubicaciones', require('./routes/ubicaciones'));
-// app.use('/api/centro-medico', require('./routes/centroMedico'));
-
-//OPERADOR
-// app.use('/api/incidencia', require('./routes/incidencia'));
-
-//TECNICO
-// app.use('/api/visita-incidencia', require('./routes/visitaIncidencia'));
-
-//TECNICO
-// app.use('/api/super-admin', require('./routes/superAdmin'));
+// RUTA USUARIOS
+app.use("/api/v1/empresa", empresaRoutes);
+app.use("/api/v1/usuarios", usuariosRoutes);
 
 console.log("Entorno:", process.env.NODE_ENV);
 if (process.env.DEBUG === "true") {
