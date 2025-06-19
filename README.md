@@ -1,4 +1,4 @@
-# 🏥 Backend Multitenant - Centro Médico
+# 🏥 Backend Multitenant 
 
 Este es un sistema backend escalable y desacoplado basado en **Clean Architecture**, que soporta múltiples bases de datos por cliente (**multitenancy** por subdominio), con autenticación **JWT** y lógica desacoplada mediante patrones de diseño profesionales.
 
