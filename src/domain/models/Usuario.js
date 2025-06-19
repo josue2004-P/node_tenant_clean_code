@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const UsuarioSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
@@ -12,5 +13,9 @@ const UsuarioSchema = new mongoose.Schema({
   imagen: { type: String },
   inactivo: { type: Boolean, default: false },
 });
+
+UsuarioSchema.methods.comparePassword = function (inputPassword) {
+  return bcrypt.compare(inputPassword, this.password);
+};
 
 module.exports = UsuarioSchema;

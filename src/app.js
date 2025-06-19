@@ -14,4 +14,4 @@ app.use(tenantMiddleware);
 
 app.use('/api/v1', routes);
 
-module.exports = app;  // <-- Exporta la app para que la importe server.js
+module.exports = app; 
