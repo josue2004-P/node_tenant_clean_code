@@ -20,12 +20,14 @@ Esta separación promueve el desacoplamiento, testeo fácil y escalabilidad.
 
 ## 📦 Características
 
-✅ Multitenancy por subdominio  
-✅ Middleware para autenticación con JWT (`x-token`)  
-✅ Renovación de token  
-✅ MongoDB con Mongoose  
-✅ Proyecto dockerizado  
-✅ Patrones de diseño aplicados  
+✅ Multitenancy por subdominio
+✅ Middleware para autenticación con JWT (x-token)
+✅ Renovación de token
+✅ MongoDB con Mongoose
+✅ Validaciones robustas con express-validator
+✅ Documentación API con Swagger UI integrada
+✅ Proyecto dockerizado para desarrollo y producción
+✅ Patrones de diseño aplicados
 ✅ Modular, mantenible y escalable
 
 ---
@@ -126,6 +128,8 @@ src/
 - 🌐 Multitenancy basado en subdominios (empresa1.localhost).
 - 🔐 Login con generación de JWT
 - 🔁 Revalidación de tokens con header personalizado x-token
+- ✔️ Validaciones con express-validator para inputs y datos.
+- 📄 Documentación automática de la API con Swagger UI accesible en /api-docs.
 - 👥 CRUD básico para usuarios y empresas (Create & GetAll)
 - 🐳 Docker Compose para levantar la API + base de datos
 - 🧱 Organización modular por dominio y responsabilidad
