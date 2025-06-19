@@ -16,22 +16,35 @@ Este proyecto implementa una **API multitenant** utilizando **Express.js** y **M
 ## 📁 Estructura del proyecto
 
 ```bash
-project-root/
-├── .env
-├── docker-compose.yml
-├── app.js
-├── /middlewares/
-│   └── tenant.middleware.js
-├── /config/
+src/
+├── application/
+│   └── use_cases/
+│       ├── CreateUsuario.js
+│       └── CreateEmpresa.js
+├── domain/
+│   └── models/
+│       ├── Usuario.js
+│       └── Empresa.js
+├── infrastructure/
+│   └── repositories/
+│       ├── UsuarioRepository.js
+│       └── EmpresaRepository.js
+├── interfaces/
+│   └── http/
+│       ├── controllers/
+│       │   ├── UsuarioController.js
+│       │   └── EmpresaController.js
+│       ├── middlewares/
+│       │   └── tenant.middleware.js
+│       └── routes/
+│           ├── usuario.routes.js
+│           └── empresa.routes.js
+├── config/
 │   ├── cors.config.js
 │   └── database/
 │       └── config.js
-├── /models/
-│   ├── Usuario.js
-│   └── Empresa.js
-├── /v1/
-│   └── routes/
-│       ├── usuarios.routes.js
-│       └── empresa.routes.js
-├── /public/
+├── public/
 │   └── index.html
+├── app.js
+└── server.js
+
