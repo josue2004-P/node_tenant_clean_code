@@ -37,7 +37,15 @@ Esta separación promueve el desacoplamiento, testeo fácil y escalabilidad.
 ```bash
 git clone https://github.com/tuusuario/backend-centro-medico.git
 cd backend-centro-medico
+
+```
+### 2. Tener instalado docker e iniciarl el contenedor
+
+```bash
 docker-compose up --build
+```
+
+## Estructura del Proyecto
 
 ```bash
 src/
@@ -82,8 +90,10 @@ src/
 │
 ├── app.js
 └── server.js
+```
 
-🧠 Patrones de diseño aplicados
+## 🧠 Patrones de diseño aplicados
+
 | Patrón                   | Uso en el proyecto                              |
 | ------------------------ | ----------------------------------------------- |
 | **Repository**           | Encapsula la lógica de acceso a datos           |
@@ -92,21 +102,21 @@ src/
 | **Middleware**           | Reutilización de lógica como auth y tenant      |
 | **Singleton parcial**    | Manejo de conexiones compartidas por subdominio |
 
-🛠 Funcionalidades implementadas
+
+
+## 🛠 Funcionalidades implementadas
+
 
 🌐 Multitenancy basado en subdominios (empresa1.localhost)
-
 🔐 Login con generación de JWT
-
 🔁 Revalidación de tokens con header personalizado x-token
-
 👥 CRUD básico para usuarios y empresas (Create & GetAll)
-
 🐳 Docker Compose para levantar la API + base de datos
-
 🧱 Organización modular por dominio y responsabilidad
 
-🧾 Autor
+
+## 🧾 Autor
+
 Desarrollado por Josué Pérez
 Licencia: MIT
 2025
