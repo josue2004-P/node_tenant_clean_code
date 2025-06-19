@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const connectToTenantDB = require('../config/database/config');
-const UsuarioSchema = require('../models/Usuario');
-const EmpresaSchema = require('../models/Empresa');
+const connectToTenantDB = require('../../../config/database/config');
+const UsuarioSchema = require('../../../domain/models/Usuario');
+const EmpresaSchema = require('../../../domain/models/Empresa'); // Aplica igual
 
 const globalConnections = {};
 
@@ -11,13 +11,13 @@ module.exports = async (req, res, next) => {
 
   try {
     if (subdominio === 'localhost' || subdominio === 'admin') {
-      // Conectar a admin_db
       if (!globalConnections.admin) {
         const uri = process.env.MONGO_URI.replace('/?', `/admin_db?`);
         const conn = await mongoose.createConnection(uri, {
           useNewUrlParser: true,
           useUnifiedTopology: true,
         });
+
         globalConnections.admin = conn;
         globalConnections.Usuario = conn.model('Usuario', UsuarioSchema);
         globalConnections.Empresa = conn.model('Empresa', EmpresaSchema);
@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
       return next();
     }
 
-    // Verificar si existe la empresa en admin_db
+    // Buscar empresa en admin_db
     const adminUri = process.env.MONGO_URI.replace('/?', `/admin_db?`);
     const adminConn = await mongoose.createConnection(adminUri);
     const Empresa = adminConn.model('Empresa', EmpresaSchema);
@@ -37,7 +37,7 @@ module.exports = async (req, res, next) => {
 
     if (!empresa) return res.status(404).json({ error: 'Empresa no encontrada' });
 
-    // Conectar a base del tenant
+    // Conectar tenant
     const conn = await connectToTenantDB(subdominio);
     req.db = conn;
     req.Usuario = conn.model('Usuario', UsuarioSchema);
