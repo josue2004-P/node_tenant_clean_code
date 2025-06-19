@@ -51,42 +51,59 @@ docker-compose up --build
 src/
 ├── application/
 │   └── use_cases/
-│       ├── usuario/
-│       │   ├── CreateUsuario.js
-│       │   ├── GetAllUsuario.js
-│       │   └── LoginUsuario.js
-│       └── empresa/
-│           ├── CreateEmpresa.js
-│           └── GetAllEmpresa.js
-│
-├── domain/
-│   └── models/
-│       ├── Usuario.js
-│       └── Empresa.js
-│
-├── infrastructure/
-│   └── repositories/
-│       ├── UsuarioRepository.js
-│       └── EmpresaRepository.js
-│
-├── interfaces/
-│   └── http/
-│       ├── controllers/
-│       │   ├── UsuarioController.js
-│       │   └── EmpresaController.js
-│       ├── routes/
-│       │   ├── index.js
-│       │   ├── usuarios.routes.js
-│       │   └── empresa.routes.js
-│       └── middlewares/
-│           ├── auth.middleware.js
-│           └── tenant.middleware.js
+│       ├── auth/
+│       │   ├── LoginUsuario.js
+│       │   └── RenewToken.js
+│       ├── empresa/
+│       │   ├── CreateEmpresa.js
+│       │   └── GetAllEmpresa.js
+│       └── usuario/
+│           ├── CreateUsuario.js
+│           └── GetAllUsuario.js
 │
 ├── config/
 │   ├── cors.config.js
 │   ├── jwt.config.js
 │   └── database/
 │       └── config.js
+│
+├── domain/
+│   └── models/
+│       ├── Empresa.js
+│       ├── Usuario.js
+│       ├── Perfil.js
+│       ├── PerfilPermiso.js
+│       ├── PerfilUsuario.js
+│       └── Permiso.js
+│
+├── infrastructure/
+│   └── repositories/
+│       ├── EmpresaRepository.js
+│       └── UsuarioRepository.js
+│
+├── interfaces/
+│   └── http/
+│       ├── controllers/
+│       │   ├── AuthController.js
+│       │   ├── EmpresaController.js
+│       │   └── UsuarioController.js
+│       ├── middlewares/
+│       │   ├── auth.middleware.js
+│       │   ├── tenant.middleware.js
+│       │   └── validateFields.js
+│       ├── routes/
+│       │   ├── index.js
+│       │   ├── auth.routes.js
+│       │   ├── empresa.routes.js
+│       │   └── usuario.routes.js
+│       ├── validations/
+│       │   ├── empresa.validation.js
+│       │   └── usuario.validation.js
+│       └── swagger.js
+│
+├── public/
+│   ├── index.html
+│   └── styles.css
 │
 ├── app.js
 └── server.js

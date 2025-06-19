@@ -4,6 +4,9 @@ const router = express.Router();
 const EmpresaController = require('../controllers/EmpresaController');
 const jwt = require('../middlewares/auth.middleware');
 
+const { validateCreateEmpresa } = require('../validations/empresa.validation');
+const validateFields = require('../middlewares/validateFields');
+
 /**
  * @swagger
  * tags:
@@ -55,7 +58,13 @@ const jwt = require('../middlewares/auth.middleware');
  *       401:
  *         description: Token inválido o no enviado
  */
-router.post('/', jwt, EmpresaController.create);
+router.post(
+  '/',
+  jwt,
+  validateCreateEmpresa,
+  validateFields,
+  EmpresaController.create
+);
 
 /**
  * @swagger

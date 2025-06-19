@@ -2,9 +2,9 @@
 const { Schema } = require('mongoose');
 
 const EmpresaSchema = new Schema({
-  nombre: { type: String, required: true, unique: true },         // nombre corto, ej. "empresa1"
-  razonSocial: { type: String },                                   // nombre legal completo
-  databaseName: { type: String, required: true },                  // ej. tenant_empresa1
+  nombre: { type: String, required: [true, 'El nombre es obligatorio'], unique: true, trim: true },
+  razonSocial: { type: String, required: [true, 'La razón social es obligatoria'], trim: true },
+  databaseName: { type: String, required: [true, 'El nombre de la base de datos es obligatorio'], trim: true },
   estatus: { type: String, default: 'activa', enum: ['activa', 'inactiva'] },
   fechaRegistro: { type: Date, default: Date.now }
 });
