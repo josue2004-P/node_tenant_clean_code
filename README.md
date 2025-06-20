@@ -20,15 +20,17 @@ Esta separación promueve el desacoplamiento, testeo fácil y escalabilidad.
 
 ## 📦 Características
 
-✅ Multitenancy por subdominio
-✅ Middleware para autenticación con JWT (x-token)
-✅ Renovación de token
-✅ MongoDB con Mongoose
-✅ Validaciones robustas con express-validator
-✅ Documentación API con Swagger UI integrada
-✅ Proyecto dockerizado para desarrollo y producción
-✅ Patrones de diseño aplicados
-✅ Modular, mantenible y escalable
+- ✅ Multitenancy por subdominio
+- ✅ Middleware para autenticación con JWT (x-token)
+- ✅ Renovación de token
+- ✅ MongoDB con Mongoose
+- ✅ Validaciones robustas con express-validator
+- ✅ Documentación API con Swagger UI integrada
+- ✅ Proyecto dockerizado para desarrollo y producción
+- ✅ Patrones de diseño aplicados
+- ✅ Modular, mantenible y escalable
+- ✅ Redis integrado para cachear el listado de empresas
+
 
 ---
 
@@ -57,11 +59,11 @@ src/
 │       │   ├── LoginUsuario.js
 │       │   └── RenewToken.js
 │       ├── empresa/
-│       │   ├── ActivarEmpresa.js
-│       │   ├── DesactivarEmpresa.js
 │       │   ├── CreateEmpresa.js
-│       │   ├── GetAllEmpresa.js
-│       │   └── GetEmpresaById.js
+│       │   ├── GetAllEmpresa.js         
+│       │   ├── UpdateEmpresa.js         
+│       │   ├── ActivarEmpresa.js       
+│       │   └── DesactivarEmpresa.js      
 │       └── usuario/
 │           ├── CreateUsuario.js
 │           └── GetAllUsuario.js
@@ -69,6 +71,7 @@ src/
 ├── config/
 │   ├── cors.config.js
 │   ├── jwt.config.js
+│   ├── redisClient.js                  
 │   └── database/
 │       └── config.js
 │
@@ -90,7 +93,7 @@ src/
 │   └── http/
 │       ├── controllers/
 │       │   ├── AuthController.js
-│       │   ├── EmpresaController.js
+│       │   ├── EmpresaController.js   
 │       │   └── UsuarioController.js
 │       ├── middlewares/
 │       │   ├── auth.middleware.js
@@ -100,6 +103,7 @@ src/
 │       │   ├── index.js
 │       │   ├── auth.routes.js
 │       │   ├── empresa.routes.js
+│       │   ├── redis.routes.js           
 │       │   └── usuario.routes.js
 │       ├── validations/
 │       │   ├── empresa.validation.js
