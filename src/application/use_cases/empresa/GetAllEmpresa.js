@@ -5,6 +5,6 @@
  */
 module.exports = (empresaRepository) => {
   return async () => {
-    return await empresaRepository.findAll();
+    return await empresaRepository.getAll();
   };
 };

@@ -57,8 +57,11 @@ src/
 │       │   ├── LoginUsuario.js
 │       │   └── RenewToken.js
 │       ├── empresa/
+│       │   ├── ActivarEmpresa.js
+│       │   ├── DesactivarEmpresa.js
 │       │   ├── CreateEmpresa.js
-│       │   └── GetAllEmpresa.js
+│       │   ├── GetAllEmpresa.js
+│       │   └── GetEmpresaById.js
 │       └── usuario/
 │           ├── CreateUsuario.js
 │           └── GetAllUsuario.js

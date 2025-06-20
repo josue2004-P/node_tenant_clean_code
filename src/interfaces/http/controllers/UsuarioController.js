@@ -38,33 +38,7 @@ const getAll = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
-  try {
-    const usuarioModel = req.Usuario;
-    const usuarioRepository = new UsuarioRepository(usuarioModel);
-
-    const loginUsuario = LoginUsuario(usuarioRepository);
-    const result = await loginUsuario(req.body);
-
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(401).json({ message: error.message });
-  }
-};
-
-const renewToken = async (req, res) => {
-  try {
-    const useCase = RenewToken();
-    const result = await useCase(req.user); // req.user viene del middleware
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(401).json({ message: 'No se pudo renovar el token' });
-  }
-};
-
 module.exports = {
   create,
   getAll,
-  login,
-  renewToken
 };
