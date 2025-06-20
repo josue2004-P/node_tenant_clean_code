@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db_bp:
@@ -8,7 +8,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
       - db_data_v2:/data/db
     networks:
@@ -18,12 +18,13 @@ services:
     build: .
     container_name: api_bp_v2
     ports:
-      - '3000:3000'
+      - "3000:3000"
     depends_on:
       - db_bp
+      - redis
     volumes:
-      - .:/app              
-      - /app/node_modules    
+      - .:/app
+      - /app/node_modules
     command: >
       sh -c "if [ \"$NODE_ENV\" = \"development\" ]; then npm run dev; else npm start; fi"
     environment:
@@ -36,6 +37,15 @@ services:
     networks:
       - bp_net
       - proxy
+
+  redis:
+    container_name: redis_bp_v2
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - bp_net
 
 networks:
   bp_net:

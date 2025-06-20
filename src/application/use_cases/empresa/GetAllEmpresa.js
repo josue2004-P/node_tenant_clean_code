@@ -1,10 +1,23 @@
-/**
- * Caso de uso para obtener todas las empresas
- * @param {EmpresaRepository} empresaRepository
- * @returns {Function} función que devuelve todas las empresas
- */
+const redisClient = require('../../../config/redisClient');
+
 module.exports = (empresaRepository) => {
   return async () => {
-    return await empresaRepository.getAll();
+    const cacheKey = 'empresas:all';
+
+    // Intentar leer de cache Redis
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+
+    // Cache miss: leer BD
+    const empresas = await empresaRepository.getAll();
+
+    // Guardar en cache por 60 segundos
+    await redisClient.set(cacheKey, JSON.stringify(empresas), {
+      EX: 60,
+    });
+
+    return empresas;
   };
 };

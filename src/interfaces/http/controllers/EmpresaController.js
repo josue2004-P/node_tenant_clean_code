@@ -14,6 +14,9 @@ const create = async (req, res) => {
     const createEmpresa = CreateEmpresa(empresaRepository);
     const empresa = await createEmpresa(req.body);
 
+    // BORRAR cache de empresas para que se refresque la próxima vez
+    await redisClient.del("empresas:all");
+
     res.status(201).json(empresa);
   } catch (error) {
     console.error(error);
@@ -75,6 +78,7 @@ const update = async (req, res) => {
         .json({ message: "Empresa no encontrada para actualizar" });
     }
 
+    await redisClient.del("empresas:all");
     res.status(200).json(empresa);
   } catch (error) {
     console.error(error);
@@ -93,13 +97,19 @@ const activarEmpresa = async (req, res) => {
     const success = await activarUseCase(req.params.id);
 
     if (!success) {
-      return res.status(404).json({ message: "Empresa no encontrada para activar" });
+      return res
+        .status(404)
+        .json({ message: "Empresa no encontrada para activar" });
     }
+
+    await redisClient.del("empresas:all");
 
     res.status(200).json({ message: "Empresa activada correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error al activar la empresa" });
+    res
+      .status(400)
+      .json({ message: error.message || "Error al activar la empresa" });
   }
 };
 
@@ -112,16 +122,21 @@ const desactivarEmpresa = async (req, res) => {
     const success = await desactivarUseCase(req.params.id);
 
     if (!success) {
-      return res.status(404).json({ message: "Empresa no encontrada para eliminar" });
+      return res
+        .status(404)
+        .json({ message: "Empresa no encontrada para eliminar" });
     }
+
+    await redisClient.del("empresas:all");
 
     res.status(200).json({ message: "Empresa desactivada correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error al eliminar la empresa" });
+    res
+      .status(400)
+      .json({ message: error.message || "Error al eliminar la empresa" });
   }
 };
-
 
 module.exports = {
   create,
