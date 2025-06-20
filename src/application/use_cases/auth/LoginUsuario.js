@@ -8,7 +8,6 @@ module.exports = (usuarioRepository) => {
 
     const validPassword = await usuario.comparePassword(password);
     
-    console.log(validPassword);
     if (!validPassword) throw new Error('Contraseña incorrecta');
 
     // Generar token
