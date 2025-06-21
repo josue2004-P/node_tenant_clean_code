@@ -1,21 +1,20 @@
-const mongoose = require('mongoose');
-const app = require('./app');
 require('dotenv').config();
+const { connectDb } = require('./config/database/mongo');
+const app = require('./app');
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Conectado a MongoDB');
+const PORT = process.env.PORT || 3000;
 
-    console.log("Entorno:", process.env.NODE_ENV);
-    if (process.env.DEBUG === "true") {
-      console.log("Modo debug activado");
-    }
+async function startServer() {
+  await connectDb();
 
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`API running on port ${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('Error al conectar a MongoDB:', err);
+  console.log("Entorno:", process.env.NODE_ENV);
+  if (process.env.DEBUG === "true") {
+    console.log("Modo debug activado");
+  }
+
+  app.listen(PORT, () => {
+    console.log(`API running on port ${PORT}`);
   });
+}
+
+startServer();
