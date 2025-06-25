@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const connectToTenantDB = require('../../../config/database/config');
+const connectToTenantDB = require('../../../infrastructure/mongo/config.tenant.mongo');
 const UsuarioSchema = require('../../../domain/models/Usuario');
 const EmpresaSchema = require('../../../domain/models/Empresa'); // Aplica igual
 

@@ -1,11 +1,18 @@
-require('dotenv').config();
-const { connectDb } = require('./config/database/mongo');
-const app = require('./app');
+require("dotenv").config();
+
+// CONEXION MONGO
+const connectMySQL = require("./infrastructure/mysql/connection");
+const connectMongo = require("./infrastructure/mongo/connection");
+
+const app = require("./app");
 
 const PORT = process.env.PORT || 3000;
 
 async function startServer() {
-  await connectDb();
+  // CONEXION A MONGO
+  await connectMongo();
+  // CONEXION A MYSQL
+  await connectMySQL();
 
   console.log("Entorno:", process.env.NODE_ENV);
   if (process.env.DEBUG === "true") {

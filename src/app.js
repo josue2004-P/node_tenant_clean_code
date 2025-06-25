@@ -13,6 +13,7 @@ app.use(corsMiddleware);
 app.use(express.json());
 app.use(express.static('public'));
 
+// MULTITENANT
 app.use(tenantMiddleware);
 
 // GraphQL setup

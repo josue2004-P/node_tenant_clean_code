@@ -1,8 +1,6 @@
-const UsuarioRepository = require("../../../infrastructure/repositories/UsuarioRepository");
+const UsuarioRepository = require("../../../infrastructure/mongo/repositories/usuarioRepository.mongo");
 const CreateUsuario = require("../../../application/use_cases/usuario/CreateUsuario");
 const GetAllUsuario = require("../../../application/use_cases/usuario/GetAllUsuario");
-const LoginUsuario = require("../../../application/use_cases/auth/LoginUsuario");
-const RenewToken = require('../../../application/use_cases/auth/RenewToken');
 
 const create = async (req, res) => {
   try {

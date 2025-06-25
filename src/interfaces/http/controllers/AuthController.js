@@ -1,4 +1,4 @@
-const UsuarioRepository = require("../../../infrastructure/repositories/UsuarioRepository");
+const UsuarioRepository = require("../../../infrastructure/mongo/repositories/usuarioRepository.mongo");
 const LoginUsuario = require("../../../application/use_cases/auth/LoginUsuario");
 const RenewToken = require('../../../application/use_cases/auth/RenewToken');
 

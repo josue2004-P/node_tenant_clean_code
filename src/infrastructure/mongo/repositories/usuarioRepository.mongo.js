@@ -19,6 +19,7 @@ class UsuarioRepository {
   }
 
   async findByEmail(email) {
+    console.log(email)
     return await this.Usuario.findOne({ email });
   }
 }

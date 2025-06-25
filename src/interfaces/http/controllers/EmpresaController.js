@@ -1,4 +1,4 @@
-const EmpresaRepository = require("../../../infrastructure/repositories/EmpresaRepository");
+const EmpresaRepository = require("../../../infrastructure/mongo/repositories/empresaRepository.mongo");
 const CreateEmpresa = require("../../../application/use_cases/empresa/CreateEmpresa");
 const GetAllEmpresa = require("../../../application/use_cases/empresa/GetAllEmpresa");
 const GetEmpresaById = require("../../../application/use_cases/empresa/GetEmpresaById");

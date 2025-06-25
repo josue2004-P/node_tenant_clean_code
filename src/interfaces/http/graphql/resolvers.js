@@ -1,5 +1,5 @@
 const GetAllEmpresa = require("../../../application/use_cases/empresa/GetAllEmpresa");
-const EmpresaRepository = require("../../../infrastructure/repositories/EmpresaRepository");
+const EmpresaRepository = require("../../../infrastructure/mongo/repositories/empresaRepository.mongo");
 
 const resolvers = {
   Query: {
