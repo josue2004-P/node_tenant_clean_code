@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../middlewares/auth.middleware");
-const UsuarioController = require("../controllers/UsuarioController");
+const UserController = require("../controllers/UserController");
 
 /**
  * @swagger
@@ -55,7 +54,7 @@ const UsuarioController = require("../controllers/UsuarioController");
  *       400:
  *         description: Datos inválidos
  */
-router.post("/", UsuarioController.create);
+router.post("/", UserController.create);
 
 /**
  * @swagger
@@ -85,6 +84,6 @@ router.post("/", UsuarioController.create);
  *       401:
  *         description: No autorizado (si requiere token)
  */
-router.get("/", UsuarioController.getAll);
+router.get("/", UserController.getAll);
 
 module.exports = router;

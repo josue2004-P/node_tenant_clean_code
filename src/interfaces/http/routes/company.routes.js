@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const EmpresaController = require("../controllers/EmpresaController");
-const auth = require("../middlewares/auth.middleware");
+const CompanyController = require("../controllers/CompanyController");
+const authentication = require("../middlewares/authentication.middleware");
 
-const { validateCreateEmpresa } = require("../validations/empresa.validation");
+const { validateCreateCompany } = require("../validations/company.validation");
 const validateFields = require("../middlewares/validateFields");
 
 /**
@@ -60,10 +60,10 @@ const validateFields = require("../middlewares/validateFields");
  */
 router.post(
   "/",
-  auth,
-  validateCreateEmpresa,
+  authentication,
+  validateCreateCompany,
   validateFields,
-  EmpresaController.create
+  CompanyController.create
 );
 
 /**
@@ -96,7 +96,7 @@ router.post(
  *       401:
  *         description: Token inválido o no enviado
  */
-router.get("/", auth, EmpresaController.getAll);
+router.get("/", authentication, CompanyController.getAll);
 
 /**
  * @swagger
@@ -135,7 +135,7 @@ router.get("/", auth, EmpresaController.getAll);
  *       401:
  *         description: Token inválido o no enviado
  */
-router.get("/:id", auth, EmpresaController.getById);
+router.get("/:id", authentication, CompanyController.getById);
 
 /**
  * @swagger
@@ -188,7 +188,7 @@ router.get("/:id", auth, EmpresaController.getById);
  *         description: Token inválido o no enviado
  */
 
-router.put("/:id", auth, EmpresaController.update);
+router.put("/:id", authentication, CompanyController.update);
 
 /**
  * @swagger
@@ -237,7 +237,7 @@ router.put("/:id", auth, EmpresaController.update);
  *                   type: string
  */
 
-router.put('/:id/activar', auth, EmpresaController.activarEmpresa);
+router.put('/:id/activate', authentication, CompanyController.activateCompany);
 /**
  * @swagger
  * /api/v1/empresas/{id}/desactivar:
@@ -284,7 +284,7 @@ router.put('/:id/activar', auth, EmpresaController.activarEmpresa);
  *                 message:
  *                   type: string
  */
-router.put("/:id/desactivar", auth, EmpresaController.desactivarEmpresa);
+router.put("/:id/deactivate", authentication, CompanyController.deactivateCompany);
 
 
 module.exports = router;

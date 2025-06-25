@@ -1,12 +1,12 @@
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('../graphql/schema');
-const auth = require('../middlewares/auth.middleware');
+const authentication = require("../middlewares/authentication.middleware");
 const tenant = require('../middlewares/tenant.middleware');
 
 module.exports = (app) => {
   app.use(
     '/graphql',
-    auth,
+    authentication,
     tenant,
     graphqlHTTP((req) => ({
       schema,

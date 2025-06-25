@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../middlewares/auth.middleware");
-const AuthController = require("../controllers/AuthController");
+const authentication = require("../middlewares/authentication.middleware");
+const AuthenticationController = require("../controllers/AuthenticationController");
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ const AuthController = require("../controllers/AuthController");
  *       401:
  *         description: Credenciales inválidas
  */
-router.post("/login", AuthController.login);
+router.post("/login", AuthenticationController.login);
 /**
  * @swagger
  * /api/v1/auth/renew-token:
@@ -71,6 +71,6 @@ router.post("/login", AuthController.login);
  *       401:
  *         description: Token inválido o expirado
  */
-router.get("/renew-token", auth, AuthController.renewToken);
+router.get("/renew-token", authentication, AuthenticationController.renewToken);
 
 module.exports = router;

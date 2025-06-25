@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const connectToTenantDB = require('../../../infrastructure/mongo/config.tenant.mongo');
-const UsuarioSchema = require('../../../domain/models/Usuario');
-const EmpresaSchema = require('../../../domain/models/Empresa'); // Aplica igual
+const UsuarioSchema = require('../../../infrastructure/mongo/schemas/UsuarioSchema');
+const EmpresaSchema = require('../../../infrastructure/mongo/schemas/EmpresaSchema'); // Aplica igual
 
 const globalConnections = {};
 

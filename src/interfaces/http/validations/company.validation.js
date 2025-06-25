@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const validateCreateEmpresa = [
+const validateCreateCompany = [
   body('nombre')
     .notEmpty().withMessage('El nombre es obligatorio')
     .isString().withMessage('El nombre debe ser texto'),
@@ -16,5 +16,5 @@ const validateCreateEmpresa = [
 ];
 
 module.exports = {
-  validateCreateEmpresa,
+  validateCreateCompany,
 };

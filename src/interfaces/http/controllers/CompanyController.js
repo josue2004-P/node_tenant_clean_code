@@ -6,6 +6,8 @@ const UpdateEmpresa = require("../../../application/use_cases/empresa/UpdateEmpr
 const ActivarEmpresa = require("../../../application/use_cases/empresa/ActivarEmpresa");
 const DesactivarEmpresa = require("../../../application/use_cases/empresa/DesactivarEmpresa");
 
+const redisClient = require('../../../config/redisClient');
+
 const create = async (req, res) => {
   try {
     const empresaModel = req.Empresa;
@@ -88,7 +90,7 @@ const update = async (req, res) => {
   }
 };
 
-const activarEmpresa = async (req, res) => {
+const activateCompany = async (req, res) => {
   try {
     const empresaModel = req.Empresa;
     const empresaRepository = new EmpresaRepository(empresaModel);
@@ -113,7 +115,7 @@ const activarEmpresa = async (req, res) => {
   }
 };
 
-const desactivarEmpresa = async (req, res) => {
+const deactivateCompany = async (req, res) => {
   try {
     const empresaModel = req.Empresa;
     const empresaRepository = new EmpresaRepository(empresaModel);
@@ -143,6 +145,6 @@ module.exports = {
   getAll,
   getById,
   update,
-  desactivarEmpresa,
-  activarEmpresa,
+  activateCompany,
+  deactivateCompany,
 };

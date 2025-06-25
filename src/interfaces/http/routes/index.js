@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const usuarioRoutes = require('./usuario.routes');
-const empresaRoutes = require('./empresa.routes');
-const authRoutes = require('./auth.routes');
+const userRoutes = require('./user.routes');
+const companyRoutes = require('./company.routes');
+const authenticationRoutes = require('./authentication.routes');
 const redisRoutes = require('./redis.routes');
 
-router.use('/usuarios', usuarioRoutes);
-router.use('/empresas', empresaRoutes);
-router.use('/auth', authRoutes);
+router.use('/user', userRoutes);
+router.use('/company', companyRoutes);
+router.use('/authentication', authenticationRoutes);
 
 router.use('/redis', redisRoutes);
 

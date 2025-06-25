@@ -1,12 +1,12 @@
-// models/Empresa.js
-const { Schema } = require('mongoose');
+class Empresa {
+  constructor({ id, nombre, razonSocial, databaseName, estatus, fechaRegistro }) {
+    this.id = id;
+    this.nombre = nombre;
+    this.razonSocial = razonSocial;
+    this.databaseName = databaseName;
+    this.estatus = estatus;
+    this.fechaRegistro = fechaRegistro;
+  }
+}
 
-const EmpresaSchema = new Schema({
-  nombre: { type: String, required: [true, 'El nombre es obligatorio'], unique: true, trim: true },
-  razonSocial: { type: String, required: [true, 'La razón social es obligatoria'], trim: true },
-  databaseName: { type: String, required: [true, 'El nombre de la base de datos es obligatorio'], trim: true },
-  estatus: { type: String, default: 'activa', enum: ['activa', 'inactiva'] },
-  fechaRegistro: { type: Date, default: Date.now }
-});
-
-module.exports = EmpresaSchema;
+module.exports = Empresa;
