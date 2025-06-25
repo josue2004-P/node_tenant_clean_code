@@ -1,38 +1,35 @@
-const UsuarioRepository = require("../../../infrastructure/mongo/repositories/usuarioRepository.mongo");
-const CreateUsuario = require("../../../application/use_cases/usuario/CreateUsuario");
-const GetAllUsuario = require("../../../application/use_cases/usuario/GetAllUsuario");
+const connectMySQL = require('../../../infrastructure/mysql/connection');
+const UserRepository = require('../../../infrastructure/mysql/repositories/userRepository.mysql');
+const CreateUser = require('../../../application/use_cases/user/CreateUser');
+const GetAllUsers = require('../../../application/use_cases/user/GetAllUser');
 
 const create = async (req, res) => {
   try {
-    const usuarioModel = req.Usuario;
-    const usuarioRepository = new UsuarioRepository(usuarioModel);
+    const db = await connectMySQL(); // 🟡 Esperar conexión
+    const userRepository = new UserRepository(db);
 
-    const createUsuario = CreateUsuario(usuarioRepository);
-    const usuario = await createUsuario(req.body);
+    const createUser = CreateUser(userRepository);
+    const user = await createUser(req.body);
 
-    res.status(201).json(usuario);
+    res.status(201).json(user);
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al crear usuario" });
+    res.status(400).json({ message: error.message });
   }
 };
 
 const getAll = async (req, res) => {
   try {
-    const usuarioModel = req.Usuario;
-    const usuarioRepository = new UsuarioRepository(usuarioModel);
+    const db = await connectMySQL(); // 🟡 Esperar conexión
+    const userRepository = new UserRepository(db);
 
-    const getAllUsuario = GetAllUsuario(usuarioRepository);
-    const usuarios = await getAllUsuario();
+    const getAllUsers = GetAllUsers(userRepository);
+    const users = await getAllUsers();
 
-    res.status(201).json(usuarios);
+    res.status(200).json(users);
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al obtener los usuarios" });
+    res.status(400).json({ message: error.message });
   }
 };
 

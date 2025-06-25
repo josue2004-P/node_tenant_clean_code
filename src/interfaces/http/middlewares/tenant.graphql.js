@@ -4,25 +4,26 @@ const mongoose = require('mongoose');
 const connectToTenantDB = require('../../../config/database/config');
 
 // Schemas
-const EmpresaSchema = require('../../../domain/models/Empresa');
-const UsuarioSchema = require('../../../domain/models/Usuario');
-// Agrega más schemas aquí si lo necesitas
+const CompanySchema = require('../../../domain/models/Company');
+const UserSchema = require('../../../domain/models/User');
+// Add more schemas here if needed
 
 const globalConnections = {};
 
 function registerModels(conn) {
   return {
-    Empresa: conn.models.Empresa || conn.model('Empresa', EmpresaSchema),
-    Usuario: conn.models.Usuario || conn.model('Usuario', UsuarioSchema),
-    // Agrega más modelos aquí
+    Company: conn.models.Company || conn.model('Company', CompanySchema),
+    User: conn.models.User || conn.model('User', UserSchema),
+    // Register more models here
   };
 }
 
 module.exports = async function getTenantModels(req) {
   const host = req.hostname;
-  const subdominio = host.split('.')[0].toLowerCase();
+  const subdomain = host.split('.')[0].toLowerCase();
 
-  if (subdominio === 'localhost' || subdominio === 'admin') {
+  // Handle admin or localhost
+  if (subdomain === 'localhost' || subdomain === 'admin') {
     if (!globalConnections.admin) {
       const uri = process.env.MONGO_URI.replace('/?', `/admin_db?`);
       const conn = await mongoose.createConnection(uri, {
@@ -39,30 +40,31 @@ module.exports = async function getTenantModels(req) {
     return globalConnections.admin;
   }
 
-  if (globalConnections[subdominio]) {
-    return globalConnections[subdominio];
+  // Return cached connection if exists
+  if (globalConnections[subdomain]) {
+    return globalConnections[subdomain];
   }
 
-  // Conexión al admin para buscar la empresa
+  // Connect to admin DB to find the company
   const adminUri = process.env.MONGO_URI.replace('/?', `/admin_db?`);
   const adminConn = await mongoose.createConnection(adminUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
 
-  const AdminEmpresa = adminConn.model('Empresa', EmpresaSchema);
-  const empresa = await AdminEmpresa.findOne({ nombre: subdominio });
+  const AdminCompany = adminConn.model('Company', CompanySchema);
+  const company = await AdminCompany.findOne({ name: subdomain });
 
-  if (!empresa) throw new Error('Empresa no encontrada');
+  if (!company) throw new Error('Company not found');
 
-  // Conectar al tenant
-  const tenantConn = await connectToTenantDB(subdominio);
+  // Connect to tenant DB
+  const tenantConn = await connectToTenantDB(subdomain);
   const models = registerModels(tenantConn);
 
-  globalConnections[subdominio] = {
+  globalConnections[subdomain] = {
     conn: tenantConn,
     ...models,
   };
 
-  return globalConnections[subdominio];
+  return globalConnections[subdomain];
 };

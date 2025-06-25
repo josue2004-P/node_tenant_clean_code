@@ -1,12 +1,13 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type Empresa {
+  type Company {
     id: ID!
-    nombre: String!
+    name: String!
   }
+
   type Query {
-    empresas: [Empresa!]!
+    companies: [Company!]!
     hello: String
   }
 `;

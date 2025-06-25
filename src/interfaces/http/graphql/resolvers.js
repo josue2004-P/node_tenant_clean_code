@@ -1,18 +1,18 @@
-const GetAllEmpresa = require("../../../application/use_cases/empresa/GetAllEmpresa");
-const EmpresaRepository = require("../../../infrastructure/mongo/repositories/empresaRepository.mongo");
+const GetAllCompanies = require("../../../application/use_cases/company/GetAllCompany");
+const CompanyRepository = require("../../../infrastructure/mongo/repositories/companyRepository.mongo");
 
 const resolvers = {
   Query: {
-    empresas: async (parent, args, context) => {
-      // Aquí puedes acceder a context.req.Empresa
-      const empresaModel = context.req.Empresa;
-      const empresaRepository = new EmpresaRepository(empresaModel);
+    companies: async (parent, args, context) => {
+      // You can access context.req.Company here
+      const companyModel = context.req.Company;
+      const companyRepository = new CompanyRepository(companyModel);
 
-      const getAllEmpresas = GetAllEmpresa(empresaRepository);
-      return await getAllEmpresas();
+      const getAllCompanies = GetAllCompanies(companyRepository);
+      return await getAllCompanies();
     },
   },
-  Empresa: {
+  Company: {
     id: (parent) => parent._id.toString(),
   },
 };

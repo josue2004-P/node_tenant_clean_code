@@ -1,142 +1,124 @@
-const EmpresaRepository = require("../../../infrastructure/mongo/repositories/empresaRepository.mongo");
-const CreateEmpresa = require("../../../application/use_cases/empresa/CreateEmpresa");
-const GetAllEmpresa = require("../../../application/use_cases/empresa/GetAllEmpresa");
-const GetEmpresaById = require("../../../application/use_cases/empresa/GetEmpresaById");
-const UpdateEmpresa = require("../../../application/use_cases/empresa/UpdateEmpresa");
-const ActivarEmpresa = require("../../../application/use_cases/empresa/ActivarEmpresa");
-const DesactivarEmpresa = require("../../../application/use_cases/empresa/DesactivarEmpresa");
+const CompanyRepository = require("../../../infrastructure/mongo/repositories/companyRepository.mongo");
+
+const CreateCompany = require("../../../application/use_cases/company/CreateCompany");
+const GetAllCompanies = require("../../../application/use_cases/company/GetAllCompany");
+const GetCompanyById = require("../../../application/use_cases/company/GetCompanyById");
+const UpdateCompany = require("../../../application/use_cases/company/UpdateCompany");
+const ActivateCompany = require("../../../application/use_cases/company/ActivateCompany");
+const DeactivateCompany = require("../../../application/use_cases/company/DeactivateCompany");
 
 const redisClient = require('../../../config/redisClient');
 
 const create = async (req, res) => {
   try {
-    const empresaModel = req.Empresa;
-    const empresaRepository = new EmpresaRepository(empresaModel);
+    const companyModel = req.Company;
+    const companyRepository = new CompanyRepository(companyModel);
 
-    const createEmpresa = CreateEmpresa(empresaRepository);
-    const empresa = await createEmpresa(req.body);
+    const createCompany = CreateCompany(companyRepository);
+    const company = await createCompany(req.body);
 
-    // BORRAR cache de empresas para que se refresque la próxima vez
-    await redisClient.del("empresas:all");
+    await redisClient.del("companies:all");
 
-    res.status(201).json(empresa);
+    res.status(201).json(company);
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al crear empresa" });
+    res.status(400).json({ message: error.message || "Error creating company" });
   }
 };
 
 const getAll = async (req, res) => {
   try {
-    const empresaModel = req.Empresa;
-    const empresaRepository = new EmpresaRepository(empresaModel);
+    const companyModel = req.Company;
+    const companyRepository = new CompanyRepository(companyModel);
 
-    const getAllEmpresas = GetAllEmpresa(empresaRepository);
-    const empresas = await getAllEmpresas();
+    const getAllCompanies = GetAllCompanies(companyRepository);
+    const companies = await getAllCompanies();
 
-    res.status(201).json(empresas);
+    res.status(200).json(companies);
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al obtener la empresa" });
+    res.status(400).json({ message: error.message || "Error fetching companies" });
   }
 };
 
 const getById = async (req, res) => {
   try {
-    const empresaModel = req.Empresa;
-    const empresaRepository = new EmpresaRepository(empresaModel);
+    const companyModel = req.Company;
+    const companyRepository = new CompanyRepository(companyModel);
 
-    const getEmpresaById = GetEmpresaById(empresaRepository);
-    const empresa = await getEmpresaById(req.params.id);
+    const getCompanyById = GetCompanyById(companyRepository);
+    const company = await getCompanyById(req.params.id);
 
-    if (!empresa) {
-      return res.status(404).json({ message: "Empresa no encontrada" });
+    if (!company) {
+      return res.status(404).json({ message: "Company not found" });
     }
 
-    res.status(200).json(empresa);
+    res.status(200).json(company);
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al obtener la empresa" });
+    res.status(400).json({ message: error.message || "Error fetching company" });
   }
 };
 
 const update = async (req, res) => {
   try {
-    const empresaModel = req.Empresa;
-    const empresaRepository = new EmpresaRepository(empresaModel);
+    const companyModel = req.Company;
+    const companyRepository = new CompanyRepository(companyModel);
 
-    const updateEmpresa = UpdateEmpresa(empresaRepository);
-    const empresa = await updateEmpresa(req.params.id, req.body);
+    const updateCompany = UpdateCompany(companyRepository);
+    const company = await updateCompany(req.params.id, req.body);
 
-    if (!empresa) {
-      return res
-        .status(404)
-        .json({ message: "Empresa no encontrada para actualizar" });
+    if (!company) {
+      return res.status(404).json({ message: "Company not found for update" });
     }
 
-    await redisClient.del("empresas:all");
-    res.status(200).json(empresa);
+    await redisClient.del("companies:all");
+    res.status(200).json(company);
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al actualizar la empresa" });
+    res.status(400).json({ message: error.message || "Error updating company" });
   }
 };
 
 const activateCompany = async (req, res) => {
   try {
-    const empresaModel = req.Empresa;
-    const empresaRepository = new EmpresaRepository(empresaModel);
+    const companyModel = req.Company;
+    const companyRepository = new CompanyRepository(companyModel);
 
-    const activarUseCase = ActivarEmpresa(empresaRepository);
-    const success = await activarUseCase(req.params.id);
+    const activateUseCase = ActivateCompany(companyRepository);
+    const success = await activateUseCase(req.params.id);
 
     if (!success) {
-      return res
-        .status(404)
-        .json({ message: "Empresa no encontrada para activar" });
+      return res.status(404).json({ message: "Company not found for activation" });
     }
 
-    await redisClient.del("empresas:all");
+    await redisClient.del("companies:all");
 
-    res.status(200).json({ message: "Empresa activada correctamente" });
+    res.status(200).json({ message: "Company successfully activated" });
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al activar la empresa" });
+    res.status(400).json({ message: error.message || "Error activating company" });
   }
 };
 
 const deactivateCompany = async (req, res) => {
   try {
-    const empresaModel = req.Empresa;
-    const empresaRepository = new EmpresaRepository(empresaModel);
+    const companyModel = req.Company;
+    const companyRepository = new CompanyRepository(companyModel);
 
-    const desactivarUseCase = DesactivarEmpresa(empresaRepository);
-    const success = await desactivarUseCase(req.params.id);
+    const deactivateUseCase = DeactivateCompany(companyRepository);
+    const success = await deactivateUseCase(req.params.id);
 
     if (!success) {
-      return res
-        .status(404)
-        .json({ message: "Empresa no encontrada para eliminar" });
+      return res.status(404).json({ message: "Company not found for deactivation" });
     }
 
-    await redisClient.del("empresas:all");
+    await redisClient.del("companies:all");
 
-    res.status(200).json({ message: "Empresa desactivada correctamente" });
+    res.status(200).json({ message: "Company successfully deactivated" });
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error al eliminar la empresa" });
+    res.status(400).json({ message: error.message || "Error deactivating company" });
   }
 };
 
