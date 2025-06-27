@@ -1,41 +1,41 @@
 version: "3.8"
 
 services:
-  db_bp_mysql:
+  tenat_mysql:
     image: mysql:8.0
-    container_name: db_bp
+    container_name: tenat_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test_db
+      MYSQL_DATABASE: tenant_db
     ports:
       - "3307:3306"
     volumes:
-      - db_data_v2:/var/lib/mysql
+      - tenant_data:/var/lib/mysql
     networks:
-      - bp_net
+      - tenatn_net
 
-  db_bp_mongo:
+  tenant_mongo:
     image: mongo:6.0
-    container_name: db_bp_v2
+    container_name: tenant_mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
       - "27017:27017"
     volumes:
-      - db_data_v2:/data/db
+      - tenant_data:/data/db
     networks:
-      - bp_net
+      - tenatn_net
 
-  api_bp:
+  tenant_api:
     build: .
-    container_name: api_bp_v2
+    container_name: tenant_api
     ports:
       - "3000:3000"
     depends_on:
-      - db_bp_mongo
-      - db_bp_mysql
-      - redis
+      - tenant_mongo
+      - tenat_mysql
+      - tenant_redis
     volumes:
       - .:/app
       - /app/node_modules
@@ -44,22 +44,22 @@ services:
     env_file:
       - .env
     networks:
-      - bp_net
-      - proxy
+      - tenatn_net
+      - tenatn_proxy
 
-  redis:
-    container_name: redis_bp_v2
+  tenant_redis:
+    container_name: tenant_redis
     image: redis:latest
     restart: always
     ports:
       - "6379:6379"
     networks:
-      - bp_net
+      - tenatn_net
 
 networks:
-  bp_net:
-  proxy:
+  tenatn_net:
+  tenatn_proxy:
     external: true
 
 volumes:
-  db_data_v2:
+  tenant_data:
