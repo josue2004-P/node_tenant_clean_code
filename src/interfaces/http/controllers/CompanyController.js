@@ -31,6 +31,11 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
+
+    if (!req.Company) {
+      return res.status(403).json({ message: 'Company model is missing. Operation not allowed' });
+    }
+
     const companyModel = req.Company;
     const companyRepository = new CompanyRepository(companyModel);
 
