@@ -1,17 +1,20 @@
-const UserRepositoryMongo = require('../../../infrastructure/mongo/repositories/userRepository.mongo');
+const UserRepositoryMongo = require("../../../infrastructure/mongo/repositories/userRepository.mongo");
 
-const CreateUser = require('../../../application/use_cases/user/CreateUser');
-const GetAllUsers = require('../../../application/use_cases/user/GetAllUser');
+const CreateUser = require("../../../application/use_cases/user/CreateUser");
+const GetAllUsers = require("../../../application/use_cases/user/GetAllUser");
 
 const create = async (req, res) => {
   try {
-    const userModel = req.User 
+    const userModel = req.User;
     const userRepository = new UserRepositoryMongo(userModel);
 
     const createUser = CreateUser(userRepository);
     const user = await createUser(req.body);
 
-    res.status(201).json(user);
+    res.status(201).json({
+      message: "User created successfully",
+      user,
+    });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message });
@@ -20,16 +23,19 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const userModel = req.User 
+    const userModel = req.User;
     const userRepository = new UserRepositoryMongo(userModel);
 
     const getAllUsers = GetAllUsers(userRepository);
     const users = await getAllUsers();
 
-    res.status(200).json(users);
+    res.status(200).json({
+      message: "Users retrieved successfully",
+      users,
+    });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
 

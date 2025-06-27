@@ -1,23 +1,33 @@
 const redisClient = require('../../../config/redisClient');
 
-module.exports = (empresaRepository) => {
+module.exports = (companyRepository) => {
   return async () => {
-    const cacheKey = 'empresas:all';
+    const cacheKey = 'companies:all';
 
-    // Intentar leer de cache Redis
+    console.log(companyRepository)
+
+    // Try to get from Redis cache
     const cachedData = await redisClient.get(cacheKey);
     if (cachedData) {
-      return JSON.parse(cachedData);
+      const parsed = JSON.parse(cachedData);
+      if (!parsed.length) {
+        throw new Error('No companies found');
+      }
+      return parsed;
     }
 
-    // Cache miss: leer BD
-    const empresas = await empresaRepository.getAll();
+    // Cache miss: query DB
+    const companies = await companyRepository.getAll();
 
-    // Guardar en cache por 60 segundos
-    await redisClient.set(cacheKey, JSON.stringify(empresas), {
+    // Cache result for 60 seconds
+    await redisClient.set(cacheKey, JSON.stringify(companies), {
       EX: 60,
     });
 
-    return empresas;
+    if (!companies.length) {
+      throw new Error('No companies found');
+    }
+
+    return companies;
   };
 };

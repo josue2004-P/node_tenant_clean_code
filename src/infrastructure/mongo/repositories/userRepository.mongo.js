@@ -18,6 +18,11 @@ class UserRepositoryMongo {
   async findByEmail(email) {
     return await this.User.findOne({ email });
   }
+
+  // Find a user by username
+  async findByUsername(username) {
+    return await this.User.findOne({ username });
+  }
 }
 
 module.exports = UserRepositoryMongo;

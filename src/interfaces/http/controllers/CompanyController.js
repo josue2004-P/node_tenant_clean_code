@@ -19,7 +19,10 @@ const create = async (req, res) => {
 
     await redisClient.del("companies:all");
 
-    res.status(201).json(company);
+    res.status(201).json({
+      message: "Company created successfully",
+      data: company,
+    });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message || "Error creating company" });
@@ -34,10 +37,16 @@ const getAll = async (req, res) => {
     const getAllCompanies = GetAllCompanies(companyRepository);
     const companies = await getAllCompanies();
 
-    res.status(200).json(companies);
+    res.status(200).json({
+      message: "Companies retrieved successfully",
+      data: companies,
+    });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error fetching companies" });
+    const message = error.message === "No companies found"
+      ? "No companies found"
+      : error.message || "Error fetching companies";
+    res.status(404).json({ message });
   }
 };
 
@@ -53,7 +62,10 @@ const getById = async (req, res) => {
       return res.status(404).json({ message: "Company not found" });
     }
 
-    res.status(200).json(company);
+    res.status(200).json({
+      message: "Company retrieved successfully",
+      data: company,
+    });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message || "Error fetching company" });
@@ -73,7 +85,11 @@ const update = async (req, res) => {
     }
 
     await redisClient.del("companies:all");
-    res.status(200).json(company);
+
+    res.status(200).json({
+      message: "Company updated successfully",
+      data: company,
+    });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: error.message || "Error updating company" });
