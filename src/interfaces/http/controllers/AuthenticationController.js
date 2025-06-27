@@ -25,7 +25,7 @@ const renewToken = async (req, res) => {
   } catch (error) {
     res.status(401).json({ message: "Failed to renew token" });
   }
-};
+};  
 
 module.exports = {
   login,

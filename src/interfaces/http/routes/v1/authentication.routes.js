@@ -3,6 +3,11 @@ const router = express.Router();
 const authentication = require("../../middlewares/authentication.middleware");
 const AuthenticationController = require("../../controllers/AuthenticationController");
 
+const {
+  validateLoginUser,
+} = require("../../validations/authentication.validation");
+const validateFields = require("../../middlewares/validateFields");
+
 /**
  * @swagger
  * tags:
@@ -27,7 +32,7 @@ const AuthenticationController = require("../../controllers/AuthenticationContro
  *               - password
  *             properties:
  *               email:
- *                 type: string 
+ *                 type: string
  *                 format: email
  *                 example: admin@empresa.com
  *               password:
@@ -48,7 +53,12 @@ const AuthenticationController = require("../../controllers/AuthenticationContro
  *       401:
  *         description: Credenciales inválidas
  */
-router.post("/login", AuthenticationController.login);
+router.post(
+  "/login",
+  validateLoginUser,
+  validateFields,
+  AuthenticationController.login
+);
 /**
  * @swagger
  * /api/v1/auth/renew-token:

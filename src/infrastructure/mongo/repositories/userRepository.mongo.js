@@ -4,7 +4,7 @@ class UserRepositoryMongo {
   }
 
   // Get all users
-  async findAll() {
+  async getAll() {
     return await this.User.find({});
   }
 

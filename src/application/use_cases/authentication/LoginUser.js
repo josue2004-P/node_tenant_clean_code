@@ -1,29 +1,29 @@
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY, EXPIRES_IN } = require('../../../config/jwt.config');
 
-module.exports = (usuarioRepository) => {
+module.exports = (userRepository) => {
   return async ({ email, password }) => {
-    const usuario = await usuarioRepository.findByEmail(email);
-    if (!usuario) throw new Error('Usuario no encontrado');
+    const user = await userRepository.findByEmail(email);
+    if (!user) throw new Error('Email not found');
 
-    const validPassword = await usuario.comparePassword(password);
+    const validPassword = await user.comparePassword(password);
     
-    if (!validPassword) throw new Error('Contraseña incorrecta');
+    if (!validPassword) throw new Error('Incorrect password');
 
-    // Generar token
+    // Generate token
     const payload = {
-      id: usuario._id,
-      email: usuario.email,
+      id: user._id,
+      email: user.email,
     };
 
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: EXPIRES_IN });
 
     return {
       token,
-      usuario: {
-        id: usuario._id,
-        email: usuario.email,
-        nombre: usuario.nombre,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
       },
     };
   };

@@ -20,8 +20,8 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    // const db = await connectMySQL(); // 🟡 Esperar conexiónk
-    const userRepository = new UserRepositoryMongo(db);
+    const userModel = req.User 
+    const userRepository = new UserRepositoryMongo(userModel);
 
     const getAllUsers = GetAllUsers(userRepository);
     const users = await getAllUsers();
