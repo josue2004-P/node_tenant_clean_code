@@ -1,4 +1,4 @@
-class UserRepository {
+class UserRepositoryMysql {
   constructor(pool) {
     this.pool = pool;
   }
@@ -6,15 +6,15 @@ class UserRepository {
   async create(user) {
     const [result] = await this.pool.execute(
       `INSERT INTO users (first_name, last_name, middle_name, username, email, avatar, is_inactive, created_at) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
+     VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
       [
-        user.firstName,
-        user.lastName,
-        user.middleName,
-        user.username,
-        user.email,
-        user.avatar,
-        user.isInactive ? 1 : 0,
+        user.firstName ?? null,
+        user.lastName ?? null,
+        user.middleName ?? null,
+        user.username ?? null,
+        user.email ?? null,
+        user.avatar ?? null,
+        user.isInactive !== undefined ? (user.isInactive ? 1 : 0) : 0,
       ]
     );
 
@@ -31,4 +31,4 @@ class UserRepository {
   }
 }
 
-module.exports = UserRepository;
+module.exports = UserRepositoryMysql;

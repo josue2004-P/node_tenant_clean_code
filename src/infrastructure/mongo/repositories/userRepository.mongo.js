@@ -1,26 +1,23 @@
-const bcrypt = require('bcryptjs');
-
-class UsuarioRepository {
-  constructor(UsuarioModel) {
-    this.Usuario = UsuarioModel;
+class UserRepositoryMongo {
+  constructor(UserModel) {
+    this.User = UserModel;
   }
 
+  // Get all users
   async findAll() {
-    return await this.Usuario.find({});
+    return await this.User.find({});
   }
 
+  // Create a new user
   async create(data) {
-    // Hashear la contraseña antes de guardar
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    data.password = hashedPassword;
-
-    const usuario = new this.Usuario(data);
-    return await usuario.save();
+    const user = new this.User(data);
+    return await user.save();
   }
 
+  // Find a user by email
   async findByEmail(email) {
-    return await this.Usuario.findOne({ email });
+    return await this.User.findOne({ email });
   }
 }
 
-module.exports = UsuarioRepository;
+module.exports = UserRepositoryMongo;

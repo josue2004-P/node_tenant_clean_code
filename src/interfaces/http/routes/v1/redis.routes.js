@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const redisClient = require('../../../config/redisClient');
+const redisClient = require('../../../../config/redisClient');
 
 // Ruta para probar guardar y leer valor en Redis
 router.get('/test', async (req, res) => {

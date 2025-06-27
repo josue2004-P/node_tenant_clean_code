@@ -1,18 +1,18 @@
 const { body } = require('express-validator');
 
 const validateCreateCompany = [
-  body('nombre')
-    .notEmpty().withMessage('El nombre es obligatorio')
-    .isString().withMessage('El nombre debe ser texto'),
-  body('razonSocial')
-    .notEmpty().withMessage('La razón social es obligatoria')
-    .isString().withMessage('La razón social debe ser texto'),
+  body('name')
+    .notEmpty().withMessage('Name is required')
+    .isString().withMessage('Name must be a string'),
+  body('legalName')
+    .notEmpty().withMessage('Legal name is required')
+    .isString().withMessage('Legal name must be a string'),
   body('databaseName')
-    .notEmpty().withMessage('El nombre de la base de datos es obligatorio')
-    .isString().withMessage('El nombre de la base de datos debe ser texto'),
-  body('estatus')
+    .notEmpty().withMessage('Database name is required')
+    .isString().withMessage('Database name must be a string'),
+  body('status')
     .optional()
-    .isIn(['activa', 'inactiva']).withMessage('El estatus debe ser "activa" o "inactiva"'),
+    .isIn(['active', 'inactive']).withMessage('Status must be "active" or "inactive"'),
 ];
 
 module.exports = {

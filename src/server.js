@@ -2,7 +2,7 @@ require("dotenv").config();
 
 // CONEXION MONGO
 // const connectMySQL = require("./infrastructure/mysql/connection");
-const connectMongo = require("./infrastructure/mongo/connection");
+const connectMongo = require("./infrastructure/mongo/connection")
 
 const app = require("./app");
 

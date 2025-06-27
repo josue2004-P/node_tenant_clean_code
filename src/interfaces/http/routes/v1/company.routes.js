@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const CompanyController = require("../controllers/CompanyController");
-const authentication = require("../middlewares/authentication.middleware");
+const CompanyController = require("../../controllers/CompanyController");
+const authentication = require("../../middlewares/authentication.middleware");
 
-const { validateCreateCompany } = require("../validations/company.validation");
-const validateFields = require("../middlewares/validateFields");
+const { validateCreateCompany } = require("../../validations/company.validation");
+const validateFields = require("../../middlewares/validateFields");
 
 /**
  * @swagger

@@ -5,27 +5,27 @@ const CompanySchema = new Schema({
     type: String,
     required: [true, 'Name is required'],
     unique: true,
-    trim: true
+    trim: true,
   },
-  businessName: {
+  legalName: {
     type: String,
-    required: [true, 'Business name is required'],
-    trim: true
+    required: [true, 'Legal name is required'],
+    trim: true,
   },
   databaseName: {
     type: String,
     required: [true, 'Database name is required'],
-    trim: true
+    trim: true,
   },
   status: {
     type: String,
     enum: ['active', 'inactive'],
-    default: 'active'
+    default: 'active',
   },
   registrationDate: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = CompanySchema;
