@@ -9,7 +9,7 @@ class CompanyRepository {
   }
 
   async getAll() {
-    return await this.CompanyModel.find();
+    return await this.CompanyModel.find({ status: "active" });
   }
 
   async getById(id) {
@@ -18,7 +18,7 @@ class CompanyRepository {
 
   async update(id, data) {
     const updateData = {
-      razonSocial: data.razonSocial,
+      legalName: data.legalName,
     };
 
     return await this.CompanyModel.findByIdAndUpdate(id, updateData, {
@@ -27,26 +27,22 @@ class CompanyRepository {
     });
   }
 
-  async desactivarEmpresa(id) {
+  async activateCompany(id) {
     return await this.CompanyModel.findByIdAndUpdate(
       id,
-      { estatus: "inactiva" },
+      { status: "active" },
       { new: true, runValidators: true }
     );
   }
-
-  async activarEmpresa(id) {
-    console.log("Activando empresa con ID:", id);
-
-    const result = await this.CompanyModel.findByIdAndUpdate(
+  
+  async deactivateCompany(id) {
+    return await this.CompanyModel.findByIdAndUpdate(
       id,
-      { estatus: "activa" },
+      { status: "inactive" },
       { new: true, runValidators: true }
     );
-
-    console.log("Resultado:", result);
-    return result;
   }
+
   async existingCompany(data) {
     return await this.CompanyModel.findOne({
       $or: [{ name: data.name }, { databaseName: data.databaseName }],

@@ -24,8 +24,11 @@ module.exports = {
   companiesRetrieved: "Companies retrieved successfully",
   noCompaniesFound: "No companies found",
   errorFetchingCompanies: "Error fetching companies",
+  errorFetchingCompany: "Error fetching company",
   companyNotFound: "Company not found",
   multitenantMiddlewareError: "Multitenant middleware error",
+  invalidObjectId: "Invalid ID provided for company",
+  noCompanyFound: "Company not found",
 
   // VALIDATIONS TO CREATE COMPANIES
   nameRequired: "Name is required",

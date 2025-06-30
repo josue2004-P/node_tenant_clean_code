@@ -1,6 +1,19 @@
-module.exports = (empresaRepository) => {
+const mongoose = require("mongoose");
+module.exports = (companyRepository) => {
   return async (id) => {
-    const empresaActualizada = await empresaRepository.activarEmpresa(id);
-    return empresaActualizada !== null;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      const error = new Error("Invalid ObjectId");
+      error.code = 400;
+      throw error;
+    }
+    const company = await companyRepository.activateCompany(id);
+
+    if (!company) {
+      const error = new Error("Company not found");
+      error.code = 404;
+      throw error;
+    }
+
+    return company;
   };
 };

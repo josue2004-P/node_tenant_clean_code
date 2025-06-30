@@ -46,7 +46,7 @@ const getAll = async (req, res) => {
     const companyRepository = new CompanyRepository(companyModel);
 
     const getAllCompanies = GetAllCompanies(companyRepository);
-    const companies = await getAllCompanies(defaultLang,t);
+    const companies = await getAllCompanies(defaultLang, t);
 
     res.status(200).json({
       message: t("companiesRetrieved", defaultLang),
@@ -68,21 +68,25 @@ const getById = async (req, res) => {
     const companyRepository = new CompanyRepository(companyModel);
 
     const getCompanyById = GetCompanyById(companyRepository);
-    const company = await getCompanyById(req.params.id);
-
-    if (!company) {
-      return res.status(404).json({ message: "Company not found" });
-    }
+    const company = await getCompanyById(req.params.id, defaultLang, t);
 
     res.status(200).json({
-      message: "Company retrieved successfully",
+      message: t("companiesRetrieved", defaultLang),
       data: company,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error fetching company" });
+    const status = error.code || 400;
+    let messageKey;
+
+    if (error.message === "Invalid ObjectId") {
+      messageKey = "invalidObjectId";
+    } else if (error.message === "Company not found") {
+      messageKey = "noCompanyFound";
+    } else {
+      messageKey = "errorFetchingCompany";
+    }
+
+    res.status(status).json({ message: t(messageKey, defaultLang) });
   }
 };
 
@@ -94,10 +98,6 @@ const update = async (req, res) => {
     const updateCompany = UpdateCompany(companyRepository);
     const company = await updateCompany(req.params.id, req.body);
 
-    if (!company) {
-      return res.status(404).json({ message: "Company not found for update" });
-    }
-
     await redisClient.del("companies:all");
 
     res.status(200).json({
@@ -105,10 +105,18 @@ const update = async (req, res) => {
       data: company,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error updating company" });
+    const status = error.code || 400;
+    let messageKey;
+
+    if (error.message === "Invalid ObjectId") {
+      messageKey = "invalidObjectId";
+    } else if (error.message === "Company not found") {
+      messageKey = "noCompanyFound";
+    } else {
+      messageKey = "errorFetchingCompany";
+    }
+
+    res.status(status).json({ message: t(messageKey, defaultLang) });
   }
 };
 
