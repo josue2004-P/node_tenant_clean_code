@@ -4,8 +4,6 @@ module.exports = (companyRepository) => {
   return async () => {
     const cacheKey = 'companies:all';
 
-    console.log(companyRepository)
-
     // Try to get from Redis cache
     const cachedData = await redisClient.get(cacheKey);
     if (cachedData) {

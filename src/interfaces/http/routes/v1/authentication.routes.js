@@ -55,7 +55,7 @@ const validateFields = require("../../middlewares/validateFields");
  */
 router.post(
   "/login",
-  validateLoginUser,
+  validateLoginUser("en"),
   validateFields,
   AuthenticationController.login
 );

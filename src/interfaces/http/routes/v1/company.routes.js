@@ -4,7 +4,9 @@ const router = express.Router();
 const CompanyController = require("../../controllers/CompanyController");
 const authentication = require("../../middlewares/authentication.middleware");
 
-const { validateCreateCompany } = require("../../validations/company.validation");
+const {
+  validateCreateCompany,
+} = require("../../validations/company.validation");
 const validateFields = require("../../middlewares/validateFields");
 
 /**
@@ -14,54 +16,10 @@ const validateFields = require("../../middlewares/validateFields");
  *   description: Endpoints para la gestión de empresas
  */
 
-/**
- * @swagger
- * /api/v1/empresas:
- *   post:
- *     summary: Crear una nueva empresa
- *     tags: [Empresas]
- *     security:
- *       - XTokenAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - nombre
- *               - direccion
- *             properties:
- *               nombre:
- *                 type: string
- *                 example: Empresa ABC S.A. de C.V.
- *               direccion:
- *                 type: string
- *                 example: Calle 123, Ciudad Industrial
- *     responses:
- *       201:
- *         description: Empresa creada correctamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: string
- *                   example: 60b8d295f1b2c4312c8d4a9f
- *                 nombre:
- *                   type: string
- *                 direccion:
- *                   type: string
- *       400:
- *         description: Datos inválidos
- *       401:
- *         description: Token inválido o no enviado
- */
 router.post(
   "/",
   authentication,
-  validateCreateCompany,
+  validateCreateCompany("es"), // 👈 aquí fijas el idioma ('es' o 'en')
   validateFields,
   CompanyController.create
 );
@@ -237,7 +195,7 @@ router.put("/:id", authentication, CompanyController.update);
  *                   type: string
  */
 
-router.put('/:id/activate', authentication, CompanyController.activateCompany);
+router.put("/:id/activate", authentication, CompanyController.activateCompany);
 /**
  * @swagger
  * /api/v1/empresas/{id}/desactivar:
@@ -284,7 +242,10 @@ router.put('/:id/activate', authentication, CompanyController.activateCompany);
  *                 message:
  *                   type: string
  */
-router.put("/:id/deactivate", authentication, CompanyController.deactivateCompany);
-
+router.put(
+  "/:id/deactivate",
+  authentication,
+  CompanyController.deactivateCompany
+);
 
 module.exports = router;

@@ -1,18 +1,19 @@
 const { body } = require('express-validator');
+const { t } = require('../../../utils/translator');
 
-const validateCreateCompany = [
+const validateCreateCompany = (lang = 'en') => [
   body('name')
-    .notEmpty().withMessage('Name is required')
-    .isString().withMessage('Name must be a string'),
+    .notEmpty().withMessage(t('nameRequired', lang))
+    .isString().withMessage(t('nameString', lang)),
   body('legalName')
-    .notEmpty().withMessage('Legal name is required')
-    .isString().withMessage('Legal name must be a string'),
+    .notEmpty().withMessage(t('legalNameRequired', lang))
+    .isString().withMessage(t('legalNameString', lang)),
   body('databaseName')
-    .notEmpty().withMessage('Database name is required')
-    .isString().withMessage('Database name must be a string'),
+    .notEmpty().withMessage(t('dbNameRequired', lang))
+    .isString().withMessage(t('dbNameString', lang)),
   body('status')
     .optional()
-    .isIn(['active', 'inactive']).withMessage('Status must be "active" or "inactive"'),
+    .isIn(['active', 'inactive']).withMessage(t('statusInvalid', lang)),
 ];
 
 module.exports = {
