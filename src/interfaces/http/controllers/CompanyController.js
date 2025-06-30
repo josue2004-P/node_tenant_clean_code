@@ -8,7 +8,7 @@ const ActivateCompany = require("../../../application/use_cases/company/Activate
 const DeactivateCompany = require("../../../application/use_cases/company/DeactivateCompany");
 
 const { t } = require("../../../utils/translator");
-const defaultLang = require('../../../config/lang');
+const defaultLang = require("../../../config/lang");
 
 const redisClient = require("../../../config/redisClient");
 
@@ -28,9 +28,9 @@ const create = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || t("errorCreatingCompany", defaultLang) });
+    res.status(400).json({
+      message: error.message || t("errorCreatingCompany", defaultLang),
+    });
   }
 };
 
@@ -46,18 +46,18 @@ const getAll = async (req, res) => {
     const companyRepository = new CompanyRepository(companyModel);
 
     const getAllCompanies = GetAllCompanies(companyRepository);
-    const companies = await getAllCompanies();
+    const companies = await getAllCompanies(defaultLang,t);
 
     res.status(200).json({
-      message: "Companies retrieved successfully",
+      message: t("companiesRetrieved", defaultLang),
       data: companies,
     });
   } catch (error) {
     console.error(error);
     const message =
       error.message === "No companies found"
-        ? "No companies found"
-        : error.message || "Error fetching companies";
+        ? t("noCompaniesFound", defaultLang)
+        : error.message || t("errorFetchingCompanies", defaultLang);
     res.status(404).json({ message });
   }
 };

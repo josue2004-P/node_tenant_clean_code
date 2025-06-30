@@ -1,14 +1,15 @@
-// src/interfaces/http/middlewares/auth.middleware.js
+const { t } = require("../../../utils/translator");
+const defaultLang = require("../../../config/lang");
 
-const jwt = require('jsonwebtoken');
-const { SECRET_KEY } = require('../../../config/jwt.config');
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("../../../config/jwt.config");
 
 module.exports = (req, res, next) => {
   // Read token from custom header
-  const token = req.header('x-token');
+  const token = req.header("x-token");
 
   if (!token) {
-    return res.status(401).json({ message: 'Token not provided' });
+    return res.status(401).json({ message: t("tokenNotProvided", defaultLang) });
   }
 
   try {
@@ -16,6 +17,6 @@ module.exports = (req, res, next) => {
     req.user = decoded; // You can access it like req.user.id, req.user.email, etc.
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    return res.status(401).json({ message: t("invalidOrExpiredToken", defaultLang) });
   }
 };
