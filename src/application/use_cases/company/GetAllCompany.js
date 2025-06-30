@@ -13,7 +13,6 @@ module.exports = (companyRepository) => {
       }
       return parsed;
     }
-
     // Cache miss: query DB
     const companies = await companyRepository.getAll();
 

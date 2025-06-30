@@ -1,5 +1,10 @@
 // locales/en.js
 module.exports = {
+  //GENERL MESSAGES COMPANIES
+  companyExists: "The company already exists",
+  companyCreated: "Company created successfully",
+  errorCreatingCompany: "Error creating company",
+
   // VALIDATIONS TO CREATE COMPANIES
   nameRequired: "Name is required",
   nameString: "Name must be a string",

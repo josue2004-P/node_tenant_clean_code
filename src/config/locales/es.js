@@ -1,5 +1,10 @@
 // locales/es.js
 module.exports = {
+  // MENSAJES GENERALES DE COMPAÑIAS
+  companyExists: "La compañía ya existe",
+  companyCreated: "Compañía creada exitosamente",
+  errorCreatingCompany: "Error al crear la compañía",
+  
   //VALIDACIONES PARA CREAR COMPAÑIAS
   nameRequired: "El nombre es obligatorio",
   nameString: "El nombre debe ser una cadena de texto",

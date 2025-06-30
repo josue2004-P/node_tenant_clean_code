@@ -7,7 +7,10 @@ const UpdateCompany = require("../../../application/use_cases/company/UpdateComp
 const ActivateCompany = require("../../../application/use_cases/company/ActivateCompany");
 const DeactivateCompany = require("../../../application/use_cases/company/DeactivateCompany");
 
-const redisClient = require('../../../config/redisClient');
+const { t } = require("../../../utils/translator");
+const defaultLang = require('../../../config/lang');
+
+const redisClient = require("../../../config/redisClient");
 
 const create = async (req, res) => {
   try {
@@ -15,25 +18,28 @@ const create = async (req, res) => {
     const companyRepository = new CompanyRepository(companyModel);
 
     const createCompany = CreateCompany(companyRepository);
-    const company = await createCompany(req.body);
+    const company = await createCompany(req.body, defaultLang, t);
 
     await redisClient.del("companies:all");
 
     res.status(201).json({
-      message: "Company created successfully",
+      message: t("companyCreated", defaultLang),
       data: company,
     });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error creating company" });
+    res
+      .status(400)
+      .json({ message: error.message || t("errorCreatingCompany", defaultLang) });
   }
 };
 
 const getAll = async (req, res) => {
   try {
-
     if (!req.Company) {
-      return res.status(403).json({ message: 'Company model is missing. Operation not allowed' });
+      return res
+        .status(403)
+        .json({ message: "Company model is missing. Operation not allowed" });
     }
 
     const companyModel = req.Company;
@@ -48,9 +54,10 @@ const getAll = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    const message = error.message === "No companies found"
-      ? "No companies found"
-      : error.message || "Error fetching companies";
+    const message =
+      error.message === "No companies found"
+        ? "No companies found"
+        : error.message || "Error fetching companies";
     res.status(404).json({ message });
   }
 };
@@ -73,7 +80,9 @@ const getById = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error fetching company" });
+    res
+      .status(400)
+      .json({ message: error.message || "Error fetching company" });
   }
 };
 
@@ -97,7 +106,9 @@ const update = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error updating company" });
+    res
+      .status(400)
+      .json({ message: error.message || "Error updating company" });
   }
 };
 
@@ -110,7 +121,9 @@ const activateCompany = async (req, res) => {
     const success = await activateUseCase(req.params.id);
 
     if (!success) {
-      return res.status(404).json({ message: "Company not found for activation" });
+      return res
+        .status(404)
+        .json({ message: "Company not found for activation" });
     }
 
     await redisClient.del("companies:all");
@@ -118,7 +131,9 @@ const activateCompany = async (req, res) => {
     res.status(200).json({ message: "Company successfully activated" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error activating company" });
+    res
+      .status(400)
+      .json({ message: error.message || "Error activating company" });
   }
 };
 
@@ -131,7 +146,9 @@ const deactivateCompany = async (req, res) => {
     const success = await deactivateUseCase(req.params.id);
 
     if (!success) {
-      return res.status(404).json({ message: "Company not found for deactivation" });
+      return res
+        .status(404)
+        .json({ message: "Company not found for deactivation" });
     }
 
     await redisClient.del("companies:all");
@@ -139,7 +156,9 @@ const deactivateCompany = async (req, res) => {
     res.status(200).json({ message: "Company successfully deactivated" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: error.message || "Error deactivating company" });
+    res
+      .status(400)
+      .json({ message: error.message || "Error deactivating company" });
   }
 };
 

@@ -1,19 +1,19 @@
-class EmpresaRepository {
-  constructor(EmpresaModel) {
-    this.EmpresaModel = EmpresaModel;
+class CompanyRepository {
+  constructor(CompanyModel) {
+    this.CompanyModel = CompanyModel;
   }
 
   async create(data) {
-    const empresa = new this.EmpresaModel(data);
-    return await empresa.save();
+    const company = new this.CompanyModel(data);
+    return await company.save();
   }
 
   async getAll() {
-    return await this.EmpresaModel.find();
+    return await this.CompanyModel.find();
   }
 
   async getById(id) {
-    return await this.EmpresaModel.findById(id);
+    return await this.CompanyModel.findById(id);
   }
 
   async update(id, data) {
@@ -21,22 +21,24 @@ class EmpresaRepository {
       razonSocial: data.razonSocial,
     };
 
-    return await this.EmpresaModel.findByIdAndUpdate(id, updateData, {
+    return await this.CompanyModel.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });
   }
+
   async desactivarEmpresa(id) {
-    return await this.EmpresaModel.findByIdAndUpdate(
+    return await this.CompanyModel.findByIdAndUpdate(
       id,
       { estatus: "inactiva" },
       { new: true, runValidators: true }
     );
   }
+
   async activarEmpresa(id) {
     console.log("Activando empresa con ID:", id);
 
-    const result = await this.EmpresaModel.findByIdAndUpdate(
+    const result = await this.CompanyModel.findByIdAndUpdate(
       id,
       { estatus: "activa" },
       { new: true, runValidators: true }
@@ -45,6 +47,12 @@ class EmpresaRepository {
     console.log("Resultado:", result);
     return result;
   }
+  async existingCompany(data) {
+    return await this.CompanyModel.findOne({
+      $or: [{ name: data.name }, { databaseName: data.databaseName }],
+      status: "active",
+    });
+  }
 }
 
-module.exports = EmpresaRepository;
+module.exports = CompanyRepository;
