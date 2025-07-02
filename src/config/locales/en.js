@@ -30,6 +30,10 @@ module.exports = {
   invalidObjectId: "Invalid ID provided for company",
   noCompanyFound: "Company not found",
 
+  companyActivated: "Company successfully activated",
+  companyAlreadyActive: "Company is already active",
+  errorActivatingCompany: "Error activating company",
+
   // VALIDATIONS TO CREATE COMPANIES
   nameRequired: "Name is required",
   nameString: "Name must be a string",

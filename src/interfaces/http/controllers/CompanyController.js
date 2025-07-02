@@ -126,22 +126,34 @@ const activateCompany = async (req, res) => {
     const companyRepository = new CompanyRepository(companyModel);
 
     const activateUseCase = ActivateCompany(companyRepository);
-    const success = await activateUseCase(req.params.id);
-
-    if (!success) {
-      return res
-        .status(404)
-        .json({ message: "Company not found for activation" });
-    }
+    await activateUseCase(req.params.id);
 
     await redisClient.del("companies:all");
 
-    res.status(200).json({ message: "Company successfully activated" });
+    res.status(200).json({
+      message: t("companyActivated", defaultLang),
+    });
   } catch (error) {
-    console.error(error);
-    res
-      .status(400)
-      .json({ message: error.message || "Error activating company" });
+    // 1) status por defecto
+    const status = error.code ?? 500;
+    let messageKey;
+    switch (error.message) {
+      case "Invalid ObjectId":
+        messageKey = "invalidObjectId";
+        break;
+      case "Company not found":
+        messageKey = "noCompanyFound";
+        break;
+      case "Company is already active":
+        messageKey = "companyAlreadyActive";
+        break;
+      default:
+        messageKey = "errorActivatingCompany";
+    }
+
+    return res.status(status).json({
+      message: t(messageKey, defaultLang),
+    });
   }
 };
 

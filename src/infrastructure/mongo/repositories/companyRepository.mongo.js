@@ -9,7 +9,7 @@ class CompanyRepository {
   }
 
   async getAll() {
-    return await this.CompanyModel.find({ status: "active" });
+    return await this.CompanyModel.find();
   }
 
   async getById(id) {
