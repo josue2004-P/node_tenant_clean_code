@@ -1,9 +1,5 @@
 const resend = require('../../../config/resend.config');
 
-/**
- * Envía un mismo correo a varios destinatarios usando batch.send()
- * @returns {Function}
- */
 module.exports = () => {
   return async ({ to, subject, html }) => {
     try {

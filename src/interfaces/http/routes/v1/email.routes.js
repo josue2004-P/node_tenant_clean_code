@@ -6,7 +6,7 @@ router.get("/test", async (req, res) => {
   const enviarCorreo = SendEmail(); // inicializamos el caso de uso
 
   const resultado = await enviarCorreo({
-    to: ["josuepe03@hotmail.com", "elmichito210119@gmail.com","Mafemennarc@gmail.com","Highlinecreator@gmail.com"],
+    to: ["josuepe03@hotmail.com"],
     subject: "Correo de prueba",
     html: `
     <h1>Prueba exitosa 🎉</h1>

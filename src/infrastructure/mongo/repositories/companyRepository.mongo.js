@@ -45,8 +45,7 @@ class CompanyRepository {
 
   async existingCompany(data) {
     return await this.CompanyModel.findOne({
-      $or: [{ name: data.name }, { databaseName: data.databaseName }],
-      status: "active",
+      $or: [{ name: data.name }, { databaseName: data.databaseName }]
     });
   }
 }

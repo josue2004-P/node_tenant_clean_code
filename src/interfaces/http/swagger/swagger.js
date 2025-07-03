@@ -1,5 +1,5 @@
 const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+const path = require("path");
 
 const options = {
   definition: {
@@ -33,14 +33,10 @@ const options = {
     // security: [{ XTokenAuth: [] }],
   },
   apis: [
-    "./src/interfaces/http/routes/*.js",
-    "./src/interfaces/http/controllers/*.js",
+    path.join(__dirname, "../routes/v1/api-docs/*.js"),
   ],
 };
 
 const specs = swaggerJsdoc(options);
 
-module.exports = {
-  swaggerUi,
-  specs,
-};
+module.exports = specs;

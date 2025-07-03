@@ -7,16 +7,16 @@ const UpdateCompany = require("../../../application/use_cases/company/UpdateComp
 const ActivateCompany = require("../../../application/use_cases/company/ActivateCompany");
 const DeactivateCompany = require("../../../application/use_cases/company/DeactivateCompany");
 
+const { ApiError } = require("../../../utils/ApiError");
+
 const { t } = require("../../../utils/translator");
 const defaultLang = require("../../../config/lang");
 
 const redisClient = require("../../../config/redisClient");
 
-const create = async (req, res) => {
+const create = async (req, res,next) => {
   try {
-    const companyModel = req.Company;
-    const companyRepository = new CompanyRepository(companyModel);
-
+    const companyRepository = new CompanyRepository(req.Company);
     const createCompany = CreateCompany(companyRepository);
     const company = await createCompany(req.body, defaultLang, t);
 
@@ -27,19 +27,27 @@ const create = async (req, res) => {
       data: company,
     });
   } catch (error) {
-    console.error(error);
-    res.status(400).json({
-      message: error.message || t("errorCreatingCompany", defaultLang),
-    });
+    console.log(error)
+    if (!(error instanceof ApiError)) {
+      error = new ApiError(
+        t("errorCreatingCompany", defaultLang),
+        "ERROR_CREATING_COMPANY",
+        401
+      );
+    }
+    next(error);
   }
 };
 
 const getAll = async (req, res) => {
   try {
+    console.log(req.Company)
     if (!req.Company) {
-      return res
-        .status(403)
-        .json({ message: "Company model is missing. Operation not allowed" });
+      new ApiError(
+        t("companyModelMissing", defaultLang),
+        "COMPANY_MODEL_MISSING",
+        401
+      );
     }
 
     const companyModel = req.Company;
@@ -53,7 +61,6 @@ const getAll = async (req, res) => {
       data: companies,
     });
   } catch (error) {
-    console.error(error);
     const message =
       error.message === "No companies found"
         ? t("noCompaniesFound", defaultLang)
