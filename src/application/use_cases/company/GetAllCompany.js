@@ -1,3 +1,5 @@
+const { ApiError } = require("../../../utils/ApiError");
+
 const redisClient = require("../../../config/redisClient");
 
 module.exports = (companyRepository) => {
@@ -9,7 +11,11 @@ module.exports = (companyRepository) => {
     if (cachedData) {
       const parsed = JSON.parse(cachedData);
       if (!parsed.length) {
-        throw new Error(t("noCompaniesFound", defaultLang));
+        throw new ApiError(
+          t("noCompaniesFound", lang),
+          "NO_COMPANIES_FOUND",
+          404
+        );
       }
       return parsed;
     }
@@ -22,7 +28,11 @@ module.exports = (companyRepository) => {
     });
 
     if (!companies.length) {
-      throw new Error(t("noCompaniesFound", defaultLang));
+      throw new ApiError(
+        t("noCompaniesFound", lang),
+        "NO_COMPANIES_FOUND",
+        404
+      );
     }
 
     return companies;

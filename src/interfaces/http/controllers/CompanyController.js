@@ -14,7 +14,7 @@ const defaultLang = require("../../../config/lang");
 
 const redisClient = require("../../../config/redisClient");
 
-const create = async (req, res,next) => {
+const create = async (req, res, next) => {
   try {
     const companyRepository = new CompanyRepository(req.Company);
     const createCompany = CreateCompany(companyRepository);
@@ -27,7 +27,7 @@ const create = async (req, res,next) => {
       data: company,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (!(error instanceof ApiError)) {
       error = new ApiError(
         t("errorCreatingCompany", defaultLang),
@@ -39,11 +39,11 @@ const create = async (req, res,next) => {
   }
 };
 
-const getAll = async (req, res) => {
+const getAll = async (req, res,next) => {
   try {
-    console.log(req.Company)
+
     if (!req.Company) {
-      new ApiError(
+      throw new ApiError(
         t("companyModelMissing", defaultLang),
         "COMPANY_MODEL_MISSING",
         401
@@ -61,11 +61,14 @@ const getAll = async (req, res) => {
       data: companies,
     });
   } catch (error) {
-    const message =
-      error.message === "No companies found"
-        ? t("noCompaniesFound", defaultLang)
-        : error.message || t("errorFetchingCompanies", defaultLang);
-    res.status(404).json({ message });
+    if (!(error instanceof ApiError)) {
+      error = new ApiError(
+        t("errorFetchingCompanies", defaultLang),
+        "ERROR_FETCHING_COMPANIES",
+        401
+      );
+    }
+    next(error);
   }
 };
 

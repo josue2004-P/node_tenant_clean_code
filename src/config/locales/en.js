@@ -31,12 +31,9 @@ module.exports = {
   noCompanyFound: "Company not found",
   companyModelMissing:"Company model is missing. Operation not allowed",
 
-
   companyActivated: "Company successfully activated",
   companyAlreadyActive: "Company is already active",
   errorActivatingCompany: "Error activating company",
-
-
 
   // VALIDATIONS TO CREATE COMPANIES
   nameRequired: "Name is required",

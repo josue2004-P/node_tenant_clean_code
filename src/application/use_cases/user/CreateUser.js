@@ -1,3 +1,5 @@
+const { ApiError } = require("../../../utils/ApiError");
+
 const bcrypt = require('bcryptjs');
 
 module.exports = (userRepository) => {

@@ -1,3 +1,5 @@
+const { ApiError } = require("../../../utils/ApiError");
+
 const resend = require('../../../config/resend.config');
 
 module.exports = () => {

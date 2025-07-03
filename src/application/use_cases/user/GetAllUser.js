@@ -1,3 +1,5 @@
+const { ApiError } = require("../../../utils/ApiError");
+
 module.exports = (userRepository) => {
   return async () => {
     const users = await userRepository.getAll();
