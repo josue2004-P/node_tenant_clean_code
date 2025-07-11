@@ -1,4 +1,6 @@
-const UserRepository = require("../../../infrastructure/mongo/repositories/userRepository.mongo");
+const connectMySQL = require("../../../infrastructure/mysql/connection");
+
+const UserRepositoryMysql = require("../../../infrastructure/mysql/repositories/userRepository.mysql");
 
 const LoginUser = require("../../../application/use_cases/authentication/LoginUser");
 const RenewToken = require("../../../application/use_cases/authentication/RenewToken");
@@ -12,13 +14,15 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const userRepository = new UserRepository(req.User);
+    const db = await connectMySQL()
+    const userRepository = new UserRepositoryMysql(db);
 
     const executeLogin = LoginUser(userRepository);
     const result = await executeLogin({ email, password }, lang, t);
 
     return res.status(200).json(result);
   } catch (err) {
+    console.log(err)
     if (!(err instanceof ApiError)) {
       err = new ApiError(t("loginFailed", lang), "LOGIN_FAILED", 401);
     }

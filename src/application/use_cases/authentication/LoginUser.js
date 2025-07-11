@@ -2,25 +2,33 @@ const jwt = require("jsonwebtoken");
 const { SECRET_KEY, EXPIRES_IN } = require("../../../config/jwt.config");
 
 const { ApiError } = require("../../../utils/ApiError");
+const comparePassword = require("../../../utils/comparePassword");
 
 module.exports = (userRepository) => {
   return async ({ email, password }, lang, t) => {
     const user = await userRepository.findByEmail(email);
-    if (!user)
+    if (!user) {
       throw new ApiError(t("emailNotFound", lang), "EMAIL_NOT_FOUND", 404);
+    }
 
-    const validPassword = await user.comparePassword(password);
+    console.log(password)
+    console.log(user)
+
+    const validPassword = await comparePassword(password, user.password);
+
+    console.log(validPassword)
+
 
     if (!validPassword) {
       throw new ApiError(
-        t("incorrectPassword", lang), 
-        "INCORRECT_PASSWORD", 
-        401 
+        t("incorrectPassword", lang),
+        "INCORRECT_PASSWORD",
+        401
       );
     }
-    // Generate token
+
     const payload = {
-      id: user._id,
+      id: user.id, // ⚠️ cambia _id por id para MySQL
       email: user.email,
     };
 
@@ -29,9 +37,9 @@ module.exports = (userRepository) => {
     return {
       token,
       user: {
-        id: user._id,
+        id: user.id,
         email: user.email,
-        name: user.name,
+        name: `${user.first_name} ${user.last_name}`,
       },
     };
   };

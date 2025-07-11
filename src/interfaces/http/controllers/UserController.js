@@ -1,12 +1,13 @@
-const UserRepositoryMongo = require("../../../infrastructure/mongo/repositories/userRepository.mongo");
+const connectMySQL = require("../../../infrastructure/mysql/connection");
+const UserRepositoryMysql = require("../../../infrastructure/mysql/repositories/userRepository.mysql");
 
 const CreateUser = require("../../../application/use_cases/user/CreateUser");
 const GetAllUsers = require("../../../application/use_cases/user/GetAllUser");
 
 const create = async (req, res) => {
   try {
-    const userModel = req.User;
-    const userRepository = new UserRepositoryMongo(userModel);
+    const db = await connectMySQL();
+    const userRepository = new UserRepositoryMysql(db);
 
     const createUser = CreateUser(userRepository);
     const user = await createUser(req.body);
@@ -23,8 +24,8 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const userModel = req.User;
-    const userRepository = new UserRepositoryMongo(userModel);
+    const db = await connectMySQL();
+    const userRepository = new UserRepositoryMysql(db);
 
     const getAllUsers = GetAllUsers(userRepository);
     const users = await getAllUsers();

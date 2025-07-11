@@ -1,6 +1,6 @@
 const express = require("express");
 const corsMiddleware = require("./config/cors.config");
-const tenantMiddleware = require("./interfaces/http/middlewares/tenant.middleware");
+// const tenantMiddleware = require("./interfaces/http/middlewares/tenant.middleware");
 
 const swaggerUi = require("swagger-ui-express");
 const specs = require("./interfaces/http/swagger/swagger");
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // MULTITENANT
-app.use(tenantMiddleware);
+// app.use(tenantMiddleware);
 
 // GraphQL setup
 async function startApollo() {
