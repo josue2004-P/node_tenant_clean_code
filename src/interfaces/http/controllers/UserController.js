@@ -3,39 +3,58 @@ const UserRepositoryMongo = require("../../../infrastructure/mongo/repositories/
 const CreateUser = require("../../../application/use_cases/user/CreateUser");
 const GetAllUsers = require("../../../application/use_cases/user/GetAllUser");
 
-const create = async (req, res) => {
+const { ApiError } = require("../../../utils/ApiError");
+
+const { t } = require("../../../utils/translator");
+const lang = require("../../../config/lang");
+
+const create = async (req, res, next) => {
   try {
     const userModel = req.User;
     const userRepository = new UserRepositoryMongo(userModel);
 
     const createUser = CreateUser(userRepository);
-    const user = await createUser(req.body);
+    const user = await createUser(req.body, lang, t);
 
-    res.status(201).json({
-      message: "User created successfully",
+    res.status(200).json({
+      message: t("userCreated", lang),
       user,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: error.message });
+  } catch (err) {
+    if (!(err instanceof ApiError)) {
+      err = new ApiError(
+        t("errorCreatingUser", lang),
+        "CREATE_USER_FAILED",
+        401
+      );
+    }
+    next(err);
   }
 };
 
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
   try {
     const userModel = req.User;
     const userRepository = new UserRepositoryMongo(userModel);
 
     const getAllUsers = GetAllUsers(userRepository);
-    const users = await getAllUsers();
+    const users = await getAllUsers(lang, t);
 
     res.status(200).json({
-      message: "Users retrieved successfully",
+      message: t("usersRetrieved", lang),
       users,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(404).json({ message: error.message });
+  } catch (err) {
+
+    console.log(err)
+    if (!(err instanceof ApiError)) {
+      err = new ApiError(
+        t("errorFetchingUsers", lang),
+        "ERROR_FETCHING_USERS",
+        401
+      );
+    }
+    next(err);
   }
 };
 

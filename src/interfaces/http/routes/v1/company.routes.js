@@ -19,7 +19,7 @@ const validateFields = require("../../middlewares/validateFields");
 router.post(
   "/",
   authentication,
-  validateCreateCompany("es"), // 👈 aquí fijas el idioma ('es' o 'en')
+  validateCreateCompany("en"), 
   validateFields,
   CompanyController.create
 );

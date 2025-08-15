@@ -8,7 +8,6 @@ const {
 } = require("../../validations/authentication.validation");
 const validateFields = require("../../middlewares/validateFields");
 
-
 router.post(
   "/",
   validateLoginUser("en"),

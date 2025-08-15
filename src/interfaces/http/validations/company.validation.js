@@ -3,14 +3,14 @@ const { t } = require('../../../utils/translator');
 
 const validateCreateCompany = (lang = 'en') => [
   body('name')
-    .notEmpty().withMessage(t('nameRequired', lang))
-    .isString().withMessage(t('nameString', lang)),
+    .notEmpty().withMessage(t('nameRequiredCompany', lang))
+    .isString().withMessage(t('nameStringCompany', lang)),
   body('legalName')
-    .notEmpty().withMessage(t('legalNameRequired', lang))
-    .isString().withMessage(t('legalNameString', lang)),
+    .notEmpty().withMessage(t('legalnameRequiredCompany', lang))
+    .isString().withMessage(t('legalnameStringCompany', lang)),
   body('databaseName')
-    .notEmpty().withMessage(t('dbNameRequired', lang))
-    .isString().withMessage(t('dbNameString', lang)),
+    .notEmpty().withMessage(t('dbnameRequiredCompany', lang))
+    .isString().withMessage(t('dbnameStringCompany', lang)),
   body('status')
     .optional()
     .isIn(['active', 'inactive']).withMessage(t('statusInvalid', lang)),

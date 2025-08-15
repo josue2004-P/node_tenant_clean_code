@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const UserController = require("../../controllers/UserController");
 
+const {
+  validateCreateUser,
+} = require("../../validations/user.validation");
+const validateFields = require("../../middlewares/validateFields");
+
 /**
  * @swagger
  * tags:
@@ -54,7 +59,12 @@ const UserController = require("../../controllers/UserController");
  *       400:
  *         description: Datos inválidos
  */
-router.post("/", UserController.create);
+router.post(
+  "/",
+  validateCreateUser("en"),
+  validateFields,
+  UserController.create
+);
 
 /**
  * @swagger

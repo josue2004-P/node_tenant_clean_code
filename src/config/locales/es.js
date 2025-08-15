@@ -6,12 +6,12 @@ module.exports = {
   errorCreatingCompany: "Error al crear la compañía",
   
   //VALIDACIONES PARA CREAR COMPAÑIAS
-  nameRequired: "El nombre es obligatorio",
-  nameString: "El nombre debe ser una cadena de texto",
-  legalNameRequired: "La razón social es obligatoria",
-  legalNameString: "La razón social debe ser una cadena de texto",
-  dbNameRequired: "El nombre de la base de datos es obligatorio",
-  dbNameString: "El nombre de la base de datos debe ser una cadena de texto",
+  nameRequiredCompany: "El nombre es obligatorisso",
+  nameStringCompany: "El nombre debe ser una cadena de texto",
+  legalnameRequiredCompany: "La razón social es obligatoria",
+  legalnameStringCompany: "La razón social debe ser una cadena de texto",
+  dbnameRequiredCompany: "El nombre de la base de datos es obligatorio",
+  dbnameStringCompany: "El nombre de la base de datos debe ser una cadena de texto",
   statusInvalid: 'El estado debe ser "active" o "inactive"',
 
   // VALIDACIONES PARA AUTENTIFICACIÓN

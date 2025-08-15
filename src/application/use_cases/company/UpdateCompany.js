@@ -3,18 +3,15 @@ const { ApiError } = require("../../../utils/ApiError");
 const mongoose = require("mongoose");
 
 module.exports = (companyRepository) => {
-  return async (id, data) => {
+  return async (id, data,lang,t) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      const error = new Error("Invalid ObjectId");
-      error.code = 400;
-      throw error;
+      throw new ApiError(t("invalidObjectId", lang), "INVALID_OBJECT_ID", 404);
     }
+
     const company = await companyRepository.update(id, data);
 
     if (!company) {
-      const error = new Error("Company not found");
-      error.code = 404;
-      throw error;
+      throw new ApiError(t("noCompanyFound", lang), "NO_COMPANY_FOUND", 404);
     }
 
     return company;

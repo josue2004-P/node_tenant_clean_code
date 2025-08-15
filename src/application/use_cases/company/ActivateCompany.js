@@ -1,25 +1,19 @@
 const { ApiError } = require("../../../utils/ApiError");
 const mongoose = require("mongoose");
 module.exports = (companyRepository) => {
-  return async (id) => {
+  return async (id, lang, t) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      const error = new Error("Invalid ObjectId");
-      error.code = 400;
-      throw error;
+      throw new ApiError(t("invalidObjectId", lang), "INVALID_OBJECT_ID", 404);
     }
 
     const company = await companyRepository.getById(id);
 
     if (!company) {
-      const error = new Error("Company not found");
-      error.code = 404;
-      throw error;
+      throw new ApiError(t("noCompanyFound", lang), "NO_COMPANY_FOUND", 404);
     }
 
     if (company.status === "active") {
-      const error = new Error("Company is already active");
-      error.code = 409;
-      throw error;
+      throw new ApiError(t("companyAlreadyActive", lang), "COMPANY_ALREADY_ACTIVE", 409);
     }
 
     const activateCompany = await companyRepository.activateCompany(id);
