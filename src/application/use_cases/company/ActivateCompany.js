@@ -13,7 +13,11 @@ module.exports = (companyRepository) => {
     }
 
     if (company.status === "active") {
-      throw new ApiError(t("companyAlreadyActive", lang), "COMPANY_ALREADY_ACTIVE", 409);
+      throw new ApiError(
+        t("companyAlreadyActive", lang),
+        "COMPANY_ALREADY_ACTIVE",
+        409
+      );
     }
 
     const activateCompany = await companyRepository.activateCompany(id);

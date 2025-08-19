@@ -33,6 +33,7 @@ module.exports = {
   multitenantMiddlewareError: "Multitenant middleware error",
   invalidObjectId: "Invalid ID provided for company",
   noCompanyFound: "Company not found",
+  subdomainRequired:"Subdomain In Required",
   companyModelMissing: "Company model is missing. Operation not allowed",
 
   companyActivated: "Company successfully activated",

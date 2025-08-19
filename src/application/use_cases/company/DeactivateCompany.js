@@ -2,7 +2,7 @@ const { ApiError } = require("../../../utils/ApiError");
 
 const mongoose = require("mongoose");
 module.exports = (companyRepository) => {
-  return async (id,lang,t) => {
+  return async (id, lang, t) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new ApiError(t("invalidObjectId", lang), "INVALID_OBJECT_ID", 404);
     }
@@ -14,7 +14,11 @@ module.exports = (companyRepository) => {
     }
 
     if (company.status === "inactive") {
-      throw new ApiError(t("companyAlreadyInactive", lang), "COMPANY_ALREADY_INACTIVE", 409);
+      throw new ApiError(
+        t("companyAlreadyInactive", lang),
+        "COMPANY_ALREADY_INACTIVE",
+        409
+      );
     }
 
     const deactivateCompany = await companyRepository.deactivateCompany(id);
@@ -22,5 +26,3 @@ module.exports = (companyRepository) => {
     return deactivateCompany;
   };
 };
-
-

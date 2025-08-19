@@ -9,8 +9,12 @@ const defaultLang = require("../../../config/lang");
 const globalConnections = {};
 
 module.exports = async (req, res, next) => {
-  const host = req.hostname;
-  const subdomain = host.split(".")[0].toLowerCase();
+  // Obtenemos el subdominio desde el header
+  const subdomain = (req.headers['x-subdomain'] || '').toLowerCase();
+
+  if (!subdomain) {
+    return res.status(400).json({ error: t("subdomainRequired", defaultLang) });
+  }
 
   try {
     if (subdomain === "localhost" || subdomain === "admin") {
