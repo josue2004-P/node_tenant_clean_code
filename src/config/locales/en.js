@@ -33,7 +33,7 @@ module.exports = {
   multitenantMiddlewareError: "Multitenant middleware error",
   invalidObjectId: "Invalid ID provided for company",
   noCompanyFound: "Company not found",
-  subdomainRequired:"Subdomain In Required",
+  subdomainRequired: "Subdomain In Required",
   companyModelMissing: "Company model is missing. Operation not allowed",
 
   companyActivated: "Company successfully activated",
@@ -53,7 +53,7 @@ module.exports = {
   dbnameRequiredCompany: "Database name is required",
   dbnameStringCompany: "Database name must be a string",
   statusInvalid: 'Status must be "active" or "inactive"',
-  
+
   //GENERL MESSAGES USERS
   errorCreatingUser: "Error creating user",
   userCreated: "User created successfully",
@@ -73,5 +73,4 @@ module.exports = {
   usersRetrieved: "Users retrieved successfully",
   noUserFond: "No users found",
   errorFetchingUsers: "Error fetching users",
-
 };

@@ -7,6 +7,8 @@ const UpdateCompany = require("../../../application/use_cases/company/UpdateComp
 const ActivateCompany = require("../../../application/use_cases/company/ActivateCompany");
 const DeactivateCompany = require("../../../application/use_cases/company/DeactivateCompany");
 
+const CompanyService = require("../../../application/services/CompanyService");
+
 const { ApiError } = require("../../../utils/ApiError");
 
 const { t } = require("../../../utils/translator");
@@ -16,9 +18,14 @@ const redisClient = require("../../../config/redisClient");
 
 const create = async (req, res, next) => {
   try {
-    const companyRepository = new CompanyRepository(req.Company);
-    const createCompany = CreateCompany(companyRepository);
-    const company = await createCompany(req.body, defaultLang, t);
+
+    const companyService = new CompanyService(req.Company, req.User);
+
+    const company = await companyService.createCompanyWithDefaultUser(
+      req.body,
+      defaultLang,
+      t
+    );
 
     await redisClient.del("companies:all");
 
@@ -95,13 +102,18 @@ const getById = async (req, res, next) => {
   }
 };
 
-const update = async (req, res,next) => {
+const update = async (req, res, next) => {
   try {
     const companyModel = req.Company;
     const companyRepository = new CompanyRepository(companyModel);
 
     const updateCompany = UpdateCompany(companyRepository);
-    const company = await updateCompany(req.params.id, req.body,defaultLang,t);
+    const company = await updateCompany(
+      req.params.id,
+      req.body,
+      defaultLang,
+      t
+    );
 
     await redisClient.del("companies:all");
 
@@ -121,13 +133,13 @@ const update = async (req, res,next) => {
   }
 };
 
-const activateCompany = async (req, res,next) => {
+const activateCompany = async (req, res, next) => {
   try {
     const companyModel = req.Company;
     const companyRepository = new CompanyRepository(companyModel);
 
     const activateUseCase = ActivateCompany(companyRepository);
-    await activateUseCase(req.params.id,defaultLang,t);
+    await activateUseCase(req.params.id, defaultLang, t);
 
     await redisClient.del("companies:all");
 
@@ -146,17 +158,17 @@ const activateCompany = async (req, res,next) => {
   }
 };
 
-const deactivateCompany = async (req, res,next) => {
+const deactivateCompany = async (req, res, next) => {
   try {
     const companyModel = req.Company;
     const companyRepository = new CompanyRepository(companyModel);
 
     const deactivateUseCase = DeactivateCompany(companyRepository);
-    await deactivateUseCase(req.params.id,defaultLang,t);
+    await deactivateUseCase(req.params.id, defaultLang, t);
 
     await redisClient.del("companies:all");
 
-    res.status(200).json({ 
+    res.status(200).json({
       message: t("companyDeactivated", defaultLang),
     });
   } catch (error) {
