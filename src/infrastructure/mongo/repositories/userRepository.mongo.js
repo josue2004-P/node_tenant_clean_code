@@ -19,7 +19,6 @@ class UserRepositoryMongo {
 
   // Create a new user default
   async createUserDefault(dbName, data) {
-
     const uri = process.env.MONGO_URI.replace("/?", `/${dbName}?`);
 
     const tenantConn = await mongoose.createConnection(uri, {
@@ -42,6 +41,45 @@ class UserRepositoryMongo {
   // Find a user by username
   async findByUsername(username) {
     return await this.User.findOne({ username });
+  }
+
+  async getById(id) {
+    return await this.User.findById(id);
+  }
+
+  async update(id, data) {
+    const updateData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      middleName: data.middleName,
+    };
+
+    // Solo agrega password si existe en data
+    if (data.password) {
+      updateData.password = data.password;
+    }
+
+    return await this.User.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+  }
+
+  async activateUser(id) {
+    return await this.User.findByIdAndUpdate(
+      id,
+      { isInactive: true },
+      { new: true, runValidators: true }
+    );
+  }
+
+  async deactivateUser(id) {
+    return await this.User.findByIdAndUpdate(
+      id,
+      { isInactive: true },
+
+      { new: true, runValidators: true }
+    );
   }
 }
 

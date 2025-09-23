@@ -96,4 +96,20 @@ router.post(
  */
 router.get("/", UserController.getAll);
 
+// GET USER BY ID
+router.get("/:id", UserController.getById);
+
+// UPDATE USER BY ID
+router.put("/:id", UserController.update);
+
+// ACTIVAR USUARIO
+router.put("/:id/activate", UserController.activateUser);
+
+// DESACTIVAR USUARIO
+router.put(
+  "/:id/deactivate",
+  UserController.deactivateUser
+);
+
+
 module.exports = router;
