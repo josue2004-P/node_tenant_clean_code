@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const connectToTenantDB = require("../../../infrastructure/mongo/config.tenant.mongo");
 const UserSchema = require("../../../infrastructure/mongo/schemas/UserSchema");
 const CompanySchema = require("../../../infrastructure/mongo/schemas/CompanySchema");
+const PermissionSchema = require("../../../infrastructure/mongo/schemas/PermissionSchema");
+const ProfileSchema = require("../../../infrastructure/mongo/schemas/ProfileSchema");
+
 
 const { t } = require("../../../utils/translator");
 const defaultLang = require("../../../config/lang");
@@ -28,11 +31,16 @@ module.exports = async (req, res, next) => {
         globalConnections.admin = conn;
         globalConnections.User = conn.model("User", UserSchema);
         globalConnections.Company = conn.model("Company", CompanySchema);
+        globalConnections.Permission = conn.model("Permission", PermissionSchema);
+        globalConnections.Profile = conn.model("Profile", ProfileSchema);
       }
 
       req.db = globalConnections.admin;
       req.User = globalConnections.User;
       req.Company = globalConnections.Company;
+      req.Permission = globalConnections.Permission;
+      req.Profile = globalConnections.Profile;
+
       return next();
     }
 
@@ -49,6 +57,9 @@ module.exports = async (req, res, next) => {
     const conn = await connectToTenantDB(subdomain);
     req.db = conn;
     req.User = conn.model("User", UserSchema);
+    req.Permission = conn.model("Permission", PermissionSchema);
+    req.Profile = conn.model("Profile", ProfileSchema);
+
     next();
   } catch (error) {
     console.error(error);

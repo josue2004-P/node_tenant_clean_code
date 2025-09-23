@@ -1,5 +1,6 @@
-const { Schema } = require('mongoose');
-const bcrypt = require('bcryptjs');
+const { Schema } = require("mongoose");
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const UserSchema = new Schema({
   firstName: { type: String, required: true },
@@ -8,6 +9,10 @@ const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+
+  // Relación con perfiles (un usuario puede tener varios perfiles)
+  profiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Profile" }],
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
   avatar: { type: String },
