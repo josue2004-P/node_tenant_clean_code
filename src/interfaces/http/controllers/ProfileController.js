@@ -2,7 +2,9 @@ const ProfileRepositoryMongo = require("../../../infrastructure/mongo/repositori
 
 const CreateProfile = require("../../../application/use_cases/profiles/CreateProfile");
 const GetAllProfiles = require("../../../application/use_cases/profiles/GetAllProfiles");
+const GetProfileById = require("../../../application/use_cases/profiles/GetProfileById");
 const UpdateProfile = require("../../../application/use_cases/profiles/UpdateProfile");
+const DeleteProfile = require("../../../application/use_cases/profiles/DeleteProfile");
 
 const { ApiError } = require("../../../utils/ApiError");
 
@@ -57,25 +59,45 @@ const getAll = async (req, res, next) => {
   }
 };
 
+const getById = async (req, res, next) => {
+  try {
+    const profileModel = req.Profile;
+    const profileRepository = new ProfileRepositoryMongo(profileModel);
+
+    const getProfileById = GetProfileById(profileRepository);
+    const profile = await getProfileById(req.params.id,lang, t);
+
+    res.status(200).json({
+      message: t("companiesRetrieved", lang),
+      data: profile,
+    });
+  } catch (error) {
+    console.log(error)
+    if (!(error instanceof ApiError)) {
+      error = new ApiError(
+        t("errorFetchingCompany", lang),
+        "ERROR_FETCHING_COMPANY",
+        401
+      );
+    }
+    next(error);
+  }
+};
+
 const update = async (req, res, next) => {
   try {
     const profileModel = req.Profile;
     const profileRepository = new ProfileRepositoryMongo(profileModel);
 
     const updateProfile = UpdateProfile(profileRepository);
-    const profile = await updateProfile(
-      req.params.id,
-      req.body,
-      lang,
-      t
-    );
+    const profile = await updateProfile(req.params.id, req.body, lang, t);
 
     res.status(200).json({
       message: t("companyUpdated", lang),
       data: profile,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (!(error instanceof ApiError)) {
       error = new ApiError(
         t("errorUpdatingCompany", lang),
@@ -86,8 +108,36 @@ const update = async (req, res, next) => {
     next(error);
   }
 };
+
+const deleted = async (req, res, next) => {
+  try {
+    const profileModel = req.Profile;
+    const profileRepository = new ProfileRepositoryMongo(profileModel);
+
+    const deleteProfile = DeleteProfile(profileRepository);
+    const profile = await deleteProfile(req.params.id, req.body, lang, t);
+
+    res.status(200).json({
+      message: t("companyUpdated", lang),
+      data: profile,
+    });
+  } catch (error) {
+    console.log(error);
+    if (!(error instanceof ApiError)) {
+      error = new ApiError(
+        t("errorUpdatingCompany", lang),
+        "ERROR_UPDATING_COMPANY",
+        401
+      );
+    }
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   getAll,
-  update
+  getById,
+  update,
+  deleted
 };

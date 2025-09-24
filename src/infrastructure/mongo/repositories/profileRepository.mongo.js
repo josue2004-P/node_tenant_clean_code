@@ -5,7 +5,22 @@ class ProfileRepositoryMongo {
 
   // Get all users
   async getAll() {
-    return await this.Profile.find({});
+    const profiles = await this.Profile.find({}).populate(
+      "permissions.permission_id",
+      "name"
+    );
+
+    // transformar el resultado
+    return profiles.map((profile) => ({
+      ...profile.toObject(),
+      permissions: profile.permissions.map((p) => ({
+        name: p.permission_id?.name || null, // 👈 solo el nombre
+        view: p.view,
+        create: p.create,
+        edit: p.edit,
+        delete: p.delete,
+      })),
+    }));
   }
 
   // Create a new user
@@ -14,59 +29,32 @@ class ProfileRepositoryMongo {
     return await permission.save();
   }
 
+  async getById(id) {
+    return await this.Profile.findById(id);
+  }
+
   // Find a user by name
   async findByName(name) {
     return await this.Profile.findOne({ name });
   }
 
   async update(id, data) {
- 
-    const profile = await this.Profile.findById(id);
+    return await this.Profile.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          name: data.name,
+          description: data.description,
+          permissions: data.permissions, // reemplaza todo el array
+          updated_at: new Date(),
+        },
+      },
+      { new: true, runValidators: true } // new -> devuelve actualizado, runValidators -> valida schema
+    );
+  }
 
-    // Validar que los permisos del body existen
-    let validPermissions = [];
-    if (data.permissions && Array.isArray(data.permissions)) {
-      const permissionsExist = await Permission.find({
-        _id: { $in: data.permissions },
-      });
-      validPermissions = permissionsExist.map((p) => p._id.toString());
-    }
-
-    // Array sincronizado
-    const updatedPermissions = [];
-
-    // Mantener los permisos existentes que siguen en el body
-    profile.permissions.forEach((p) => {
-      if (validPermissions.includes(p.permission_id.toString())) {
-        updatedPermissions.push(p);
-      }
-    });
-
-    // Agregar los nuevos permisos que están en el body pero no en profile
-    validPermissions.forEach((pId) => {
-      if (
-        !profile.permissions
-          .map((p) => p.permission_id.toString())
-          .includes(pId)
-      ) {
-        updatedPermissions.push({
-          permission_id: pId,
-          view: false,
-          create: false,
-          edit: false,
-          delete: false,
-        });
-      }
-    });
-
-    // Asignar y guardar
-    profile.permissions = updatedPermissions;
-
-    console.log(profile)
-    return
-    await profile.save();
-
-    return profile;
+  async delete(id) {
+    return await this.Profile.findByIdAndDelete(id);
   }
 }
 
