@@ -25,6 +25,7 @@ module.exports = (userRepository) => {
       firstName: user.firstName,
       lastName: user.lastName,
       middleName: user.middleName,
+      profiles: user.profiles,
     };
   };
 };

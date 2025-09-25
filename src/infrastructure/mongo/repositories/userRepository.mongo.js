@@ -48,10 +48,32 @@ class UserRepositoryMongo {
   }
 
   async update(id, data) {
+    let profiles = [];
+
+    if (data.profiles) {
+      try {
+        const parsed = JSON.parse(data.profiles);
+
+        // Caso: [ "id1", "id2" ]
+        if (Array.isArray(parsed)) {
+          profiles = parsed;
+        }
+        // Caso: { profiles: [ "id1", "id2" ] }
+        else if (parsed.profiles && Array.isArray(parsed.profiles)) {
+          profiles = parsed.profiles;
+        } else {
+          throw new Error("Formato de profiles no soportado");
+        }
+      } catch (err) {
+        throw new Error("JSON inválido en profiles");
+      }
+    }
+
     const updateData = {
       firstName: data.firstName,
       lastName: data.lastName,
       middleName: data.middleName,
+      profiles: profiles,
     };
 
     // Solo agrega password si existe en data
@@ -62,7 +84,7 @@ class UserRepositoryMongo {
     return await this.User.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
-    });
+    }).populate("profiles","name");
   }
 
   async activateUser(id) {

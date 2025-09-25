@@ -11,7 +11,9 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
 
   // Relación con perfiles (un usuario puede tener varios perfiles)
-  profiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "Profile" }],
+  profiles: [{
+     type: mongoose.Schema.Types.ObjectId, ref: "Profile"
+  }],
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },

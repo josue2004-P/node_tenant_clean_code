@@ -98,7 +98,6 @@ const update = async (req, res, next) => {
       lang,
       t
     );
-
     // await redisClient.del("companies:all");
 
     res.status(200).json({

@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const UserController = require("../../controllers/UserController");
 
@@ -6,6 +7,8 @@ const {
   validateCreateUser,
 } = require("../../validations/user.validation");
 const validateFields = require("../../middlewares/validateFields");
+
+const upload = multer(); // sin configuración especial
 
 /**
  * @swagger
@@ -100,7 +103,7 @@ router.get("/", UserController.getAll);
 router.get("/:id", UserController.getById);
 
 // UPDATE USER BY ID
-router.put("/:id", UserController.update);
+router.put("/:id",upload.none(), UserController.update);
 
 // ACTIVAR USUARIO
 router.put("/:id/activate", UserController.activateUser);
