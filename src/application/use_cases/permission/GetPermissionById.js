@@ -11,7 +11,7 @@ module.exports = (permissionRepository) => {
     const permission = await permissionRepository.getById(id);
 
     if (!permission) {
-      throw new ApiError(t("", lang), "", 404);
+      throw new ApiError(t("noPermissionFond", lang), "NO_PERMISSION_FOUND", 404);
     }
 
     return permission;

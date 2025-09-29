@@ -11,7 +11,7 @@ module.exports = (profilesRepository) => {
     const profile = await profilesRepository.getById(id);
 
     if (!profile) {
-      throw new ApiError(t("noCompanyFound", lang), "NO_COMPANy_FOUND", 404);
+      throw new ApiError(t("noProfileFond", lang), "NO_PROFILE_FOUND", 404);
     }
 
     return profile;

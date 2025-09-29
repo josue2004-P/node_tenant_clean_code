@@ -9,13 +9,13 @@ module.exports = (userRepository) => {
     const user = await userRepository.getById(id);
 
     if (!user) {
-      throw new ApiError(t("noCompanyFound", lang), "NO_COMPANY_FOUND", 404);
+      throw new ApiError(t("noUserFond", lang), "NO_USER_FOUND", 404);
     }
 
     if (user.isInactive === false) {
       throw new ApiError(
-        t("companyAlreadyActive", lang),
-        "COMPANY_ALREADY_ACTIVE",
+        t("userAlreadyActive", lang),
+        "USER_ALREADY_ACTIVE",
         409
       );
     }

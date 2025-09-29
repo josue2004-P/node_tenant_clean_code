@@ -5,7 +5,7 @@ module.exports = (permissionRepository) => {
     const permissions = await permissionRepository.getAll();
 
     if (!permissions || permissions.length === 0) {
-      return t("noUserFond", lang)
+      return t("noPermissionsFond", lang)
     }
     return permissions;
   };

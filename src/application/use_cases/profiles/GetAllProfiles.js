@@ -5,7 +5,7 @@ module.exports = (profilesRepository) => {
     const profiles = await profilesRepository.getAll();
 
     if (!profiles || profiles.length === 0) {
-      return t("noUserFond", lang)
+      return t("noProfilesFond", lang)
     }
     return profiles;
   };

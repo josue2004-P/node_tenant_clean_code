@@ -49,8 +49,6 @@ const getAll = async (req, res, next) => {
       users,
     });
   } catch (err) {
-
-    console.log(err)
     if (!(err instanceof ApiError)) {
       err = new ApiError(
         t("errorFetchingUsers", lang),
@@ -71,14 +69,14 @@ const getById = async (req, res, next) => {
     const user = await getUserById(req.params.id, lang, t);
 
     res.status(200).json({
-      message: t("companiesRetrieved", lang),
+      message: t("usersRetrieved", lang),
       data: user,
     });
   } catch (error) {
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorFetchingCompany", lang),
-        "ERROR_FETCHING_COMPANY",
+        t("errorFetchingUser", lang),
+        "ERROR_FETCHING_USER",
         401
       );
     }
@@ -101,14 +99,14 @@ const update = async (req, res, next) => {
     // await redisClient.del("companies:all");
 
     res.status(200).json({
-      message: t("companyUpdated", lang),
+      message: t("userUpdated", lang),
       data: user,
     });
   } catch (error) {
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorUpdatingCompany", lang),
-        "ERROR_UPDATING_COMPANY",
+        t("errorUpdatingUser", lang),
+        "ERROR_UPDATING_USER",
         401
       );
     }
@@ -127,13 +125,13 @@ const activateUser = async (req, res, next) => {
     // await redisClient.del("companies:all");
 
     res.status(200).json({
-      message: t("companyActivated", lang),
+      message: t("userActivated", lang),
     });
   } catch (error) {
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorActivatingCompany", lang),
-        "ERROR_ACTIVATING_COMPANY",
+        t("errorActivatingUser", lang),
+        "ERROR_ACTIVATING_USER",
         401
       );
     }
@@ -152,13 +150,13 @@ const deactivateUser = async (req, res, next) => {
     // await redisClient.del("companies:all");
 
     res.status(200).json({
-      message: t("companyDeactivated", lang),
+      message: t("userDeactivated", lang),
     });
   } catch (error) {
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorDeactivatingCompany", lang),
-        "ERROR_DEACTIVATING_COMPANY",
+        t("errorDeactivatingUser", lang),
+        "ERROR_DEACTIVATING_USER",
         401
       );
     }

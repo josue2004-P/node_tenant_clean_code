@@ -17,7 +17,7 @@ module.exports = (userRepository) => {
     const user = await userRepository.update(id, data);
 
     if (!user) {
-      throw new ApiError(t("noCompanyFound", lang), "NO_COMPANY_FOUND", 404);
+      throw new ApiError(t("noUserFond", lang), "NO_USER_FOUND", 404);
     }
 
     // Retornar solo campos necesarios

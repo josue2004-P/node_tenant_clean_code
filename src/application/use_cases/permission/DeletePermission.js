@@ -3,7 +3,7 @@ const { ApiError } = require("../../../utils/ApiError");
 const mongoose = require("mongoose");
 
 module.exports = (permissionRepository) => {
-  return async (id, data,lang,t) => {
+  return async (id, data, lang, t) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new ApiError(t("invalidObjectId", lang), "INVALID_OBJECT_ID", 404);
     }
@@ -11,7 +11,11 @@ module.exports = (permissionRepository) => {
     const permission = await permissionRepository.delete(id);
 
     if (!permission) {
-      throw new ApiError(t("", lang), "", 404);
+      throw new ApiError(
+        t("noPermissionFond", lang),
+        "NO_PERMISSION_FOUND",
+        404
+      );
     }
 
     return permission;

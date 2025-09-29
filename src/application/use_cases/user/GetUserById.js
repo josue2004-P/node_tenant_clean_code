@@ -11,7 +11,7 @@ module.exports = (userRepository) => {
     const user = await userRepository.getById(id);
 
     if (!user) {
-      throw new ApiError(t("noCompanyFound", lang), "NO_COMPANy_FOUND", 404);
+      throw new ApiError(t("noUserFond", lang), "NO_USER_FOUND", 404);
     }
 
     return user;

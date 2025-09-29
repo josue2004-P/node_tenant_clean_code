@@ -5,7 +5,7 @@ module.exports = (permissionRepository) => {
   
     const existingName = await permissionRepository.findByName(permissionData.name);
     if (existingName) {
-      throw new ApiError(t("companyExists", lang), "COMPANY_EXISTS", 409);
+      throw new ApiError(t("namePermissionExists", lang), "PERMISSION_EXISTS", 409);
     }
 
     const createdPermission = await permissionRepository.create(permissionData);

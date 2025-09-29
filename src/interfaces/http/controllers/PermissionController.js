@@ -6,7 +6,6 @@ const GetPermissionById = require("../../../application/use_cases/permission/Get
 const UpdatePermission = require("../../../application/use_cases/permission/UpdatePermission");
 const DeletePermission = require("../../../application/use_cases/permission/DeletePermission");
 
-
 const { ApiError } = require("../../../utils/ApiError");
 
 const { t } = require("../../../utils/translator");
@@ -21,14 +20,14 @@ const create = async (req, res, next) => {
     const permission = await createPermission(req.body, lang, t);
 
     res.status(200).json({
-      message: t("userCreated", lang),
+      message: t("permissionCreated", lang),
       permission,
     });
   } catch (err) {
     if (!(err instanceof ApiError)) {
       err = new ApiError(
-        t("errorCreatingUser", lang),
-        "CREATE_USER_FAILED",
+        t("errorCreatingPermission", lang),
+        "CREATE_PERMISSION_FAILED",
         401
       );
     }
@@ -45,15 +44,15 @@ const getAll = async (req, res, next) => {
     const permissions = await getAllPermissions(lang, t);
 
     res.status(200).json({
-      message: t("usersRetrieved", lang),
+      message: t("permissionRetrieved", lang),
       permissions,
     });
   } catch (err) {
     console.log(err);
     if (!(err instanceof ApiError)) {
       err = new ApiError(
-        t("errorFetchingUsers", lang),
-        "ERROR_FETCHING_USERS",
+        t("errorFetchingPermissions", lang),
+        "ERROR_FETCHING_PERMISSIONS",
         401
       );
     }
@@ -70,15 +69,15 @@ const getById = async (req, res, next) => {
     const permission = await getPermissionById(req.params.id, lang, t);
 
     res.status(200).json({
-      message: t("", lang),
+      message: t("permissionRetrieved", lang),
       data: permission,
     });
   } catch (error) {
     console.log(error);
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorFetchingCompany", lang),
-        "ERROR_FETCHING_COMPANY",
+        t("errorFetchingPermission", lang),
+        "ERROR_FETCHING_PERMISSION",
         401
       );
     }
@@ -95,15 +94,15 @@ const update = async (req, res, next) => {
     const permission = await updatePermission(req.params.id, req.body, lang, t);
 
     res.status(200).json({
-      message: t("", lang),
+      message: t("permissionUpdated", lang),
       data: permission,
     });
   } catch (error) {
     console.log(error);
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorUpdatingCompany", lang),
-        "ERROR_UPDATING_COMPANY",
+        t("errorUpdatingPermission", lang),
+        "ERROR_UPDATING_PERMISSION",
         401
       );
     }
@@ -120,15 +119,15 @@ const deleted = async (req, res, next) => {
     const permission = await deletePermission(req.params.id, req.body, lang, t);
 
     res.status(200).json({
-      message: t("", lang),
+      message: t("permissionDeleted", lang),
       data: permission,
     });
   } catch (error) {
     console.log(error);
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorUpdatingCompany", lang),
-        "ERROR_UPDATING_COMPANY",
+        t("errorDeletingPermission", lang),
+        "ERROR_UPDATING_PEMRISSION",
         401
       );
     }

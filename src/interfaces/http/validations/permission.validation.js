@@ -4,14 +4,14 @@ const { t } = require("../../../utils/translator");
 const validateCreatePermission = (lang = "en") => [
   body("name")
     .notEmpty()
-    .withMessage(t("", lang))
+    .withMessage(t("nameRequiredPermission", lang))
     .isString()
-    .withMessage(t("", lang)),
+    .withMessage(t("nameStringPermission", lang)),
   body("description")
     .notEmpty()
-    .withMessage(t("", lang))
+    .withMessage(t("descriptionRequiredPermission", lang))
     .isString()
-    .withMessage(t("", lang)),
+    .withMessage(t("descriptionStringPermission", lang)),
 ];
 
 module.exports = {

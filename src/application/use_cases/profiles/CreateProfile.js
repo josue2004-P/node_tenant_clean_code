@@ -5,7 +5,7 @@ module.exports = (profileRepository) => {
   
     const existingName = await profileRepository.findByName(profileData.name);
     if (existingName) {
-      throw new ApiError(t("companyExists", lang), "COMPANY_EXISTS", 409);
+      throw new ApiError(t("nameProfileExists", lang), "PROFILE_EXISTS", 409);
     }
 
     const createdProfile = await profileRepository.create(profileData);

@@ -5,7 +5,7 @@ module.exports = (userRepository) => {
     const users = await userRepository.getAll();
 
     if (!users || users.length === 0) {
-      return t("noUserFond", lang)
+      return t("noUsersFond", lang)
     }
     return users;
   };

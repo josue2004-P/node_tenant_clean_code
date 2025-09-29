@@ -1,11 +1,10 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
+const authentication = require("../../middlewares/authentication.middleware");
 const UserController = require("../../controllers/UserController");
 
-const {
-  validateCreateUser,
-} = require("../../validations/user.validation");
+const { validateCreateUser } = require("../../validations/user.validation");
 const validateFields = require("../../middlewares/validateFields");
 
 const upload = multer(); // sin configuración especial
@@ -66,6 +65,7 @@ router.post(
   "/",
   validateCreateUser("en"),
   validateFields,
+  authentication,
   UserController.create
 );
 
@@ -97,22 +97,23 @@ router.post(
  *       401:
  *         description: No autorizado (si requiere token)
  */
-router.get("/", UserController.getAll);
+router.get("/", authentication, UserController.getAll);
 
 // GET USER BY ID
-router.get("/:id", UserController.getById);
+router.get("/:id", authentication, UserController.getById);
 
 // UPDATE USER BY ID
-router.put("/:id",upload.none(), UserController.update);
+router.put("/:id", authentication, upload.none(), UserController.update);
 
 // ACTIVAR USUARIO
-router.put("/:id/activate", UserController.activateUser);
+router.put("/:id/activate", authentication, UserController.activateUser);
 
 // DESACTIVAR USUARIO
 router.put(
   "/:id/deactivate",
+  authentication,
+
   UserController.deactivateUser
 );
-
 
 module.exports = router;

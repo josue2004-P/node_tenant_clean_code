@@ -11,7 +11,7 @@ module.exports = (profileRepository) => {
     const profile = await profileRepository.delete(id);
 
     if (!profile) {
-      throw new ApiError(t("noCompanyFound", lang), "NO_COMPANY_FOUND", 404);
+      throw new ApiError(t("noProfileFond", lang), "NO_PROFILE_FOUND", 404);
     }
 
     return profile;

@@ -20,14 +20,14 @@ const create = async (req, res, next) => {
     const profiles = await createProfile(req.body, lang, t);
 
     res.status(200).json({
-      message: t("userCreated", lang),
+      message: t("profileCreated", lang),
       profiles,
     });
   } catch (err) {
     if (!(err instanceof ApiError)) {
       err = new ApiError(
-        t("errorCreatingUser", lang),
-        "CREATE_USER_FAILED",
+        t("errorCreatingProfile", lang),
+        "CREATE_PROFILE_FAILED",
         401
       );
     }
@@ -44,14 +44,14 @@ const getAll = async (req, res, next) => {
     const profiles = await getAllProfiles(lang, t);
 
     res.status(200).json({
-      message: t("usersRetrieved", lang),
+      message: t("profileRetrieved", lang),
       profiles,
     });
   } catch (err) {
     if (!(err instanceof ApiError)) {
       err = new ApiError(
-        t("errorFetchingUsers", lang),
-        "ERROR_FETCHING_USERS",
+        t("errorFetchingProfiles", lang),
+        "ERROR_FETCHING_PROFILES",
         401
       );
     }
@@ -68,15 +68,15 @@ const getById = async (req, res, next) => {
     const profile = await getProfileById(req.params.id,lang, t);
 
     res.status(200).json({
-      message: t("companiesRetrieved", lang),
+      message: t("profileRetrieved", lang),
       data: profile,
     });
   } catch (error) {
     console.log(error)
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorFetchingCompany", lang),
-        "ERROR_FETCHING_COMPANY",
+        t("errorFetchingProfile", lang),
+        "ERROR_FETCHING_PROFILE",
         401
       );
     }
@@ -93,15 +93,15 @@ const update = async (req, res, next) => {
     const profile = await updateProfile(req.params.id, req.body, lang, t);
 
     res.status(200).json({
-      message: t("companyUpdated", lang),
+      message: t("profileUpdated", lang),
       data: profile,
     });
   } catch (error) {
     console.log(error);
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorUpdatingCompany", lang),
-        "ERROR_UPDATING_COMPANY",
+        t("errorUpdatingProfile", lang),
+        "ERROR_UPDATING_PROFILE",
         401
       );
     }
@@ -118,15 +118,15 @@ const deleted = async (req, res, next) => {
     const profile = await deleteProfile(req.params.id, req.body, lang, t);
 
     res.status(200).json({
-      message: t("companyUpdated", lang),
+      message: t("profileDeleted", lang),
       data: profile,
     });
   } catch (error) {
     console.log(error);
     if (!(error instanceof ApiError)) {
       error = new ApiError(
-        t("errorUpdatingCompany", lang),
-        "ERROR_UPDATING_COMPANY",
+        t("errorDeletingProfile", lang),
+        "ERROR_UPDATING_PROFILE",
         401
       );
     }
