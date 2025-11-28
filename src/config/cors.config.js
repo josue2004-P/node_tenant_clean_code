@@ -5,6 +5,8 @@ const allowedOrigins = [
   'http://admin.localhost:3001',
   'http://empresa1.localhost:3001',
   'http://localhost:3001',
+  'http://admin.localhost:5173',
+
 ];
 
 const corsOptions = {

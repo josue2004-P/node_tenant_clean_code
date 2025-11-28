@@ -17,8 +17,10 @@ class CompanyRepository {
   }
 
   async update(id, data) {
+
     const updateData = {
       legalName: data.legalName,
+      status: data.status,
     };
 
     return await this.CompanyModel.findByIdAndUpdate(id, updateData, {
